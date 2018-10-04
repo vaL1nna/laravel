@@ -11,8 +11,16 @@ class ManagerSeeder extends Seeder
      */
     public function run()
     {
-        \DB::table('manager')->insert(
+        /*\DB::table('manager')->insert(
             ['username'=>'admin', 'password'=>bcrypt('123456')]
-        );
+        );*/
+
+        $faker = \Faker\Factory::create('zh_CN');
+        for($i=0; $i<10; $i++){
+            \App\Manager::create([
+                'username'=>$faker->name,
+                'password'=>bcrypt('123456')
+            ]);
+        }
     }
 }
