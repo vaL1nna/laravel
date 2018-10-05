@@ -21,6 +21,7 @@ class Manager extends Model implements \Illuminate\Contracts\Auth\Authenticatabl
         'mg_sex',
         'mg_phone',
         'mg_email',
-        'mg_remark'
+        'mg_remark',
+        'mg_pic'
     ];
 }

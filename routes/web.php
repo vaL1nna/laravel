@@ -27,5 +27,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('admin/manager/list', 'Admin\ManagerController@list');
     Route::match(['get', 'post'], 'admin/manager/add', 'Admin\ManagerController@add');
     Route::post('admin/manager/del', 'Admin\ManagerController@del');
+    Route::get('admin/manager/edit/{mg_id}', 'Admin\ManagerController@edit');
+    Route::post('admin/manager/edit', 'Admin\ManagerController@edit');
+    Route::post('/admin/manager/batchDel', 'Admin\ManagerController@batchDel');
 });
 

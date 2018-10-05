@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ManagerController extends Controller
 {
+    //登陆
     public function login(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -45,21 +46,55 @@ class ManagerController extends Controller
         }
     }
 
+    //登出
     public function logout()
     {
         Auth::guard('admin')->logout();
         return redirect('/admin/login');
     }
 
-    public function list()
+    //管理员列表页
+    public function list(Request $request)
     {
-        //获取所有数据
-        $data = Manager::paginate(10);
+        if ($request->ajax()) {
+            //获取所有数据
+            $startDate = $request->startDate;
+            $endDate = $request->endDate;
+            $keyword = $request->keyword;
 
-        //分配数据到模版
-        return view('Admin.manager.list', ['data' => $data]);
+            //获取数据
+            $data = Manager::query();
+
+            if (isset($startDate) && isset($endDate)) {
+                $data = $data->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
+            }
+
+            if (isset($keyword)) {
+                $data = $data->where(function ($query) use ($keyword) {
+                    $query->where('username', 'like', '%' . strtoupper($keyword) . '%');
+                });
+            }
+
+            $paginate = $data->paginate(10);
+            $data = $data->get()->toArray();
+
+            return response()->json([
+                'data' => $data,
+                'paginate' => $paginate
+            ]);
+
+        }else{
+            //获取所有数据
+            $data = Manager::query();
+            $total = $data->count();
+            $data = $data->paginate(10);
+
+            //分配数据到模版
+            return view('Admin.manager.list', ['data' => $data, 'total' => $total]);
+        }
     }
 
+    //管理员添加页
     public function add(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -85,6 +120,42 @@ class ManagerController extends Controller
         }
     }
 
+    //管理员修改
+    public function edit(Request $request)
+    {
+        $id = $request->mg_id;
+
+        //获取数据
+        $data = Manager::where('mg_id', $id)->first();
+
+        if ($request->isMethod('get')) {
+            //加载视图
+            return view('Admin.manager.edit', ['data' => $data]);
+        }elseif ($request->isMethod('post')) {
+            //接受参数
+            $params = $request->only('username', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
+            $file = $request->file;
+
+            if (empty($file)) {
+                $file = $data['mg_pic'];
+                $params['mg_pic'] = $file;
+            }else{
+                if ($file->isValid()) {
+                    $path = $file->store('public');
+                    $params['mg_pic'] = str_replace('public', '/storage', $path);
+                }
+            }
+
+            $data = Manager::where('mg_id', $id)->update($params);
+            if ($data) {
+                return ['success' => true];
+            }else{
+                return ['success' => false];
+            }
+        }
+    }
+    
+    //管理员删除
     public function del(Request $request)
     {
         $id = $request->input('mg_id');
@@ -96,4 +167,25 @@ class ManagerController extends Controller
             return ['success' => true];
         }
     }
+
+    //管理员批量删除
+    public function batchDel(Request $request)
+    {
+        $ids = $request->ids;
+        $errors = [];
+
+        foreach ($ids as $id) {
+            $rs = Manager::find($id)->delete();
+            if ($rs === false) {
+                $errors[] = $id;
+            }
+        }
+
+        if (!empty($errors)) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
+    }
+
 }

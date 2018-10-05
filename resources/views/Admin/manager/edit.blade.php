@@ -29,30 +29,18 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="username" name="username">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
+                <input type="text" class="input-text" value="{{ $data->username }}" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="mg_sex" value="男" type="radio" id="sex-1" checked>
+                    <input name="mg_sex" value="男" type="radio" id="sex-1" @if($data['mg_sex'] == '男') checked @endif>
                     <label for="sex-1">男</label>
                 </div>
                 <div class="radio-box">
-                    <input name="mg_sex" value="女" type="radio" id="sex-2">
+                    <input name="mg_sex" value="女" type="radio" id="sex-2" @if($data['mg_sex'] == '女') checked @endif>
                     <label for="sex-2">女</label>
                 </div>
             </div>
@@ -60,13 +48,13 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="mg_phone" name="mg_phone">
+                <input type="text" class="input-text" value="{{ $data->mg_phone }}" placeholder="" id="mg_phone" name="mg_phone">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="@" name="mg_email" id="mg_email">
+                <input type="text" class="input-text" value="{{ $data->mg_email }}" name="mg_email" id="mg_email">
             </div>
         </div>
         <div class="row cl">
@@ -79,6 +67,9 @@
                     </a>
                     <input type="file" multiple name="file" class="input-file">
                 </span>
+                @if(!empty($data->mg_pic))
+                    <img src="{{ $data->mg_pic }}" alt="没有头像" width="100px">
+                @endif
             </div>
         </div>
         <div class="row cl">
@@ -95,7 +86,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true"></textarea>
+                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true">{{ $data->mg_remark }}</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -104,6 +95,7 @@
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
+        <input type="hidden" name="mg_id" value="{{ $data->mg_id }}">
     </form>
 </article>
 
@@ -134,13 +126,6 @@
                     minlength:4,
                     maxlength:16
                 },
-                password:{
-                    required:true,
-                },
-                password2:{
-                    required:true,
-                    equalTo: "#password"
-                },
                 mg_sex:{
                     required:true,
                 },
@@ -156,23 +141,22 @@
                     required:true,
                 },
             },
-            focusCleanup:true,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/admin/manager/add" ,
+                    url: "/admin/manager/edit" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000});
+                        layer.msg('修改成功!',{icon:1,time:1000});
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
-                var index = parent.layer.getFrameIndex(window.name);
+                /*var index = parent.layer.getFrameIndex(window.name);
                 parent.$('.btn-refresh').click();
-                parent.layer.close(index);
+                parent.layer.close(index);*/
             }
         });
     });
