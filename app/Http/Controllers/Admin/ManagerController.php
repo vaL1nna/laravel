@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 use App\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
-class ManagerController extends Controller
+class ManagerController extends CommonController
 {
     //登陆
     public function login(Request $request)

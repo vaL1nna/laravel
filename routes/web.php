@@ -19,16 +19,36 @@ Route::get('/', function () {
 Route::match(["get", "post"], "admin/login", "Admin\ManagerController@login")->name('login');
 
 //后台模块
-Route::group(['middleware' => 'auth:admin'], function () {
-    Route::get('admin/index', 'Admin\IndexController@index');
-    Route::get('admin/welcome', 'Admin\IndexController@welcome');
-    Route::get('admin/logout', 'Admin\ManagerController@logout');
+Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 'Admin'], function () {
+    Route::get('index', 'IndexController@index');
+    Route::get('welcome', 'IndexController@welcome');
+    Route::get('logout', 'ManagerController@logout');
 
-    Route::get('admin/manager/list', 'Admin\ManagerController@list');
-    Route::match(['get', 'post'], 'admin/manager/add', 'Admin\ManagerController@add');
-    Route::post('admin/manager/del', 'Admin\ManagerController@del');
-    Route::get('admin/manager/edit/{mg_id}', 'Admin\ManagerController@edit');
-    Route::post('admin/manager/edit', 'Admin\ManagerController@edit');
-    Route::post('/admin/manager/batchDel', 'Admin\ManagerController@batchDel');
+    //管理员模块
+    Route::group(['prefix' => 'manager'], function (){
+        Route::get('list', 'ManagerController@list');
+        Route::match(['get', 'post'], 'add', 'ManagerController@add');
+        Route::post('del', 'ManagerController@del');
+        Route::get('edit/{mg_id}', 'ManagerController@edit');
+        Route::post('edit', 'ManagerController@edit');
+        Route::post('/batchDel', 'ManagerController@batchDel');
+    });
+
+    //导航模块
+    Route::group(['prefix' => 'nav'], function (){
+        Route::get('index', 'NavController@index');
+        Route::match(['get', 'post'], 'add', 'NavController@add');
+        Route::get('edit/{id}', 'NavController@edit');
+        Route::post('edit', 'NavController@edit');
+        Route::post('del', 'NavController@del');
+    });
+
 });
+
+//前台模块
+Route::group(['namespace' => 'Home', 'prefix' => 'nav'], function (){
+    Route::get('header', 'NavController@header');
+    Route::get('footer', 'NavController@footer');
+});
+
 

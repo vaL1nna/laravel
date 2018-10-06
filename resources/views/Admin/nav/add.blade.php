@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
+    <title>添加导航 - 导航管理 - H-ui.admin v3.1</title>
     <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
     <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -27,75 +27,61 @@
 <article class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>导航名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="username" name="username">
+                <input type="text" class="input-text" id="nav_name" name="nav_name">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input name="mg_sex" value="男" type="radio" id="sex-1" checked>
-                    <label for="sex-1">男</label>
-                </div>
-                <div class="radio-box">
-                    <input name="mg_sex" value="女" type="radio" id="sex-2">
-                    <label for="sex-2">女</label>
-                </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="mg_phone" name="mg_phone">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="@" name="mg_email" id="mg_email">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">头像：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
-                    <a href="javascript:void();" class="btn btn-primary radius">
-                        <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
-                    </a>
-                    <input type="file" multiple name="file" class="input-file">
-                </span>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">角色：</label>
+            <label class="form-label col-xs-4 col-sm-3">位置：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="adminRole" size="1">
-				<option value="0">超级管理员</option>
-				<option value="1">总编</option>
-				<option value="2">栏目主辑</option>
-				<option value="3">栏目编辑</option>
+			<select class="select" name="position" size="1">
+				<option value="0">--头尾--</option>
+				<option value="1">--头部--</option>
+				<option value="2">--尾部--</option>
 			</select>
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>url优化：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true"></textarea>
+                <input type="text" class="input-text" id="url" name="url">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>seo标题：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" id="title" name="title">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>seo关键字：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" id="keyword" name="keyword">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">seo描述：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="description" cols="" rows="" class="textarea" dragonfly="true"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">所属分类：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+			<select class="select" name="parent_id" size="1">
+				<option value="0">--顶级分类--</option>
+                @foreach($menu as $v)
+				<option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
+                @endforeach
+			</select>
+			</span> </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">导航内容：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="nav_content" cols="" rows="" class="textarea" dragonfly="true"></textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -129,30 +115,15 @@
 
         $("#form-admin-add").validate({
             rules:{
-                username:{
+                nav_name:{
                     required:true,
-                    minlength:4,
-                    maxlength:16
+                    minlength:1,
+                    maxlength:8
                 },
-                password:{
-                    required:true,
-                },
-                password2:{
-                    required:true,
-                    equalTo: "#password"
-                },
-                mg_sex:{
+                position:{
                     required:true,
                 },
-                mg_phone:{
-                    required:true,
-                    isPhone:true,
-                },
-                mg_email:{
-                    required:true,
-                    email:true,
-                },
-                adminRole:{
+                parent_id:{
                     required:true,
                 },
             },
@@ -161,7 +132,7 @@
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/admin/manager/add" ,
+                    url: "/admin/nav/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         layer.msg('添加成功!',{icon:1,time:1000});
