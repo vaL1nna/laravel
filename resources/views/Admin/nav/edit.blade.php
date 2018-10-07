@@ -59,7 +59,7 @@
 			<select class="select" name="type_id" size="1">
 				<option value="0">--请选择--</option>
                 @foreach($type as $v)
-                    <option value="{{ $v['id'] }}">{{ $v['name'] }}</option>
+                    <option value="{{ $v['id'] }}" @if($v['id'] == $info->id) selected @endif>{{ $v['type_name'] }}</option>
                 @endforeach
 			</select>
 			</span> </div>

@@ -16,6 +16,7 @@ class Nav extends Model
         'id',
         'parent_id',
         'order_id',
+        'type_id',
         'nav_name',
         'nav_content',
         'position',
