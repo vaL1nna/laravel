@@ -3,12 +3,38 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Nav;
+use App\NavType;
 use Illuminate\Http\Request;
 
 class NavController extends CommonController
 {
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $parentId = $request->parentId;
+            $keyword = $request->keyword;
+
+            //获取数据
+            $data = Nav::with('children');
+
+            if (isset($parentId)) {
+                $data = $data->where('id', $parentId);
+            }
+
+            if (isset($keyword)) {
+                $data = $data->where(function ($query) use ($keyword) {
+                    $query->where('nav_name', 'like', '%' . strtoupper($keyword) . '%');
+                });
+            }
+
+            $data = $data->first()->toArray();
+            $paginate = count($data['children']) + 1;
+
+            return response()->json([
+                'data' => $data,
+                'paginate' => $paginate
+            ]);
+        }
         //获取所有数据
         $data = Nav::with('parent');
 
@@ -30,8 +56,11 @@ class NavController extends CommonController
             $menu = Nav::where('parent_id', '0')->get()->toArray();
             $menu = $this->getTree($menu, 0, 1);
 
+            //导航类型
+            $type = NavType::all();
+
             //显示视图
-            return view('Admin.nav.add', ['menu' => $menu]);
+            return view('Admin.nav.add', ['menu' => $menu, 'type' => $type]);
         }elseif ($request->isMethod('post')) {
             $params = $request->all();
 
@@ -58,7 +87,10 @@ class NavController extends CommonController
             $menu = Nav::where('parent_id', '0')->get()->toArray();
             $menu = $this->getTree($menu, 0, 1);
 
-            return view('Admin.nav.edit', ['info' => $info, 'menu' => $menu]);
+            //导航类型
+            $type = NavType::all();
+
+            return view('Admin.nav.edit', ['info' => $info, 'menu' => $menu, 'type' => $type]);
         }elseif ($request->isMethod('post')) {
             $id = $request->id;
             $params = $request->only('nav_name', 'position', 'url', 'keyword', 'title', 'description', 'parent_id', 'nav_content');

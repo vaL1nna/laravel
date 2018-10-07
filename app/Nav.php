@@ -29,4 +29,9 @@ class Nav extends Model
     {
         return $this->hasOne('App\Nav', 'id', 'parent_id');
     }
+
+    public function children()
+    {
+        return $this->hasMany('App\Nav', 'parent_id', 'id');
+    }
 }

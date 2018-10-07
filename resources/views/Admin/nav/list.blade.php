@@ -28,7 +28,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 导航管理 <span class="c-gray en">&gt;</span> 导航列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c"> 所属分类：
-        <select name="menu_id" id="">
+        <select name="parentId" id="parentId">
             <option value="0">--请选择--</option>
             @foreach($menu as $v)
             <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
@@ -145,15 +145,13 @@
 
     /*搜索事件*/
     function search() {
-        var start = $('#datemin') . val();
-        var end = $('#datemax') . val();
+        var parentId = $('#parentId') . val();
         var keyword = $('#keyword') . val();
         $.ajax({
             type: 'get',
-            url: '/admin/nav/list',
+            url: '/admin/nav/index',
             data: {
-                startDate: start,
-                endDate: end,
+                parentId: parentId,
                 keyword: keyword,
                 _token: "{{ csrf_token() }}"
             },
@@ -163,25 +161,40 @@
                 $('#list-item') . empty();
                 $('#statistics') . empty();
                 var data = info.data;
-                var total = info.paginate.total;
+                var total = info.paginate;
                 $('#statistics') . append(total);
 
                 var str = '';
 
-                for(var i = 0; i < data.length; i++) {
-                    str = '<tr class="text-c">' +
-                        '<td><input type="checkbox" value="' + data[i].id + '" name="ids"></td>' +
-                        '<td>' + data[i].id + '</td>' +
-                        '<td>' + data[i].username + '</td>' +
-                        '<td>' + data[i].mg_phone + '</td>' +
-                        '<td>' + data[i].mg_email + '</td>' +
-                        '<td><img src="' + (data[i].mg_pic ? data[i].mg_pic : '')  + '" alt="没有头像" width="100px"></td>' +
-                        '<td>' + data[i].created_at + '</td>' +
-                        '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i>--}}</a> <a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\',' + data[i].id + ',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
-                        '</tr>';
+                str += '<tr class="text-c">' +
+                    '<td><input type="checkbox" value="' + data.id + '" name="ids"></td>' +
+                    '<td>' + data.id + '</td>' +
+                    '<td>' + data.nav_name + '</td>' +
+                    '<td>顶级分类</td>' +
+                    '<td>' + data.url + '</td>' +
+                    '<td>'+ data.position +'</td>' +
+                    '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
+                    '</tr>';
 
-                    $('#list-item') .append(str);
+                for(var i = 0; i < data.children.length; i++) {
+                    if (data.children[i].position === 0) {
+                        data.children[i].position = '头尾';
+                    }else if(data.children[i].position === 1) {
+                        data.children[i].position = '头部';
+                    }else if(data.children[i].position == 2) {
+                        data.children[i].position = '尾部';
+                    }
+                    str += '<tr class="text-c">' +
+                        '<td><input type="checkbox" value="' + data.children[i].id + '" name="ids"></td>' +
+                        '<td>' + data.children[i].id + '</td>' +
+                        '<td>' + data.children[i].nav_name + '</td>' +
+                        '<td>' + data.nav_name + '</td>' +
+                        '<td>' + data.children[i].url + '</td>' +
+                        '<td>'+ data.children[i].position +'</td>' +
+                        '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.children[i].id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.children[i].id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
+                    '</tr>';
                 }
+                $('#list-item') .append(str);
             },
             error:function(info) {
                 console.log(info);

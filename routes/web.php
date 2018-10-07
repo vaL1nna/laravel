@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::post('del', 'ManagerController@del');
         Route::get('edit/{mg_id}', 'ManagerController@edit');
         Route::post('edit', 'ManagerController@edit');
-        Route::post('/batchDel', 'ManagerController@batchDel');
+        Route::post('batchDel', 'ManagerController@batchDel');
     });
 
     //导航模块
@@ -41,8 +41,18 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::get('edit/{id}', 'NavController@edit');
         Route::post('edit', 'NavController@edit');
         Route::post('del', 'NavController@del');
+        Route::post('batchDel', 'NavController@batchDel');
     });
 
+    //新闻模块
+    Route::group(['prefix' => 'news'], function (){
+        Route::get('list', 'NewsController@list');
+        Route::match(['get', 'post'], 'add', 'NewsController@add');
+        Route::get('edit/{id}', 'NewsController@edit');
+        Route::post('edit', 'NewsController@edit');
+        Route::post('del', 'NewsController@list');
+        Route::post('batchDel', 'NewsController@batchDel');
+    });
 });
 
 //前台模块
