@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/page.css">
+    <link rel="stylesheet" type="text/css" href="/css/patch.css">
     <!--[if IE 6]>
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -25,48 +26,56 @@
     <title>导航列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 导航管理 <span class="c-gray en">&gt;</span> 导航列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 新闻管理 <span class="c-gray en">&gt;</span> 新闻列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <div class="text-c"> 所属分类：
-        <select name="parentId" id="parentId">
-            <option value="0">--请选择--</option>
-            @foreach($menu as $v)
-            <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
+    <form action="/admin/news/list" method="get">
+        <div class="text-c"> 所属分类：
+            <select class="select-news" name="parentId" id="parentId">
+                <option value="0">--请选择--</option>
+                @foreach($menu as $v)
+                <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
+                @endforeach
+            </select>
+            <input type="text" class="input-text" style="width:250px" placeholder="输入导航名称" id="keyword" name="keyword">
+            <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+        </div>
+    </form>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <a href="javascript:;" onclick="admin_add('添加导航','/admin/news/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a>
+            <a href="javascript:;" onclick="dataedit()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量编辑</a>
+            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+        </span>
+        <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
+    <form action="amdin/news/list" method="post">
+        <table class="table table-border table-bordered table-bg" id="list">
+            <thead>
+            <tr>
+                <th scope="col" colspan="9">导航列表</th>
+            </tr>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox" name="" value=""></th>
+                <th width="30">排序</th>
+                <th width="150">新闻名称</th>
+                <th width="150">所属分类</th>
+                <th width="90">url</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody id="list-item">
+            @foreach($data as $v)
+            <tr class="text-c">
+                <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
+                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name=""/> </td>
+                <td>{{ $v->news_name }}</td>
+                <td>@if(!empty($v->parent->news_name)) {{ $v->parent->news_name }} @else 顶级分类 @endif</td>
+                <td>{{ $v->url }}</td>
+                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+            </tr>
             @endforeach
-        </select>
-        <input type="text" class="input-text" style="width:250px" placeholder="输入导航名称" id="keyword" name="keyword">
-        <button type="submit" class="btn btn-success" id="" name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
-    </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_add('添加导航','/admin/nav/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加导航</a></span> <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
-    <table class="table table-border table-bordered table-bg" id="list">
-        <thead>
-        <tr>
-            <th scope="col" colspan="9">导航列表</th>
-        </tr>
-        <tr class="text-c">
-            <th width="25"><input type="checkbox" name="" value=""></th>
-            <th width="40">ID</th>
-            <th width="150">导航名称</th>
-            <th width="150">所属分类</th>
-            <th width="90">url</th>
-            <th width="150">所在位置</th>
-            <th width="100">操作</th>
-        </tr>
-        </thead>
-        <tbody id="list-item">
-        @foreach($data as $v)
-        <tr class="text-c">
-            <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-            <td>{{ $v->id }}</td>
-            <td>{{ $v->nav_name }}</td>
-            <td>@if(!empty($v->parent->nav_name)) {{ $v->parent->nav_name }} @else 顶级分类 @endif</td>
-            <td>{{ $v->url }}</td>
-            <td>@if($v->position == 0)头尾@elseif($v->position == 1)头部@elseif($v->position == 2)尾部@endif</td>
-            <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-        </tr>
-        @endforeach
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </form>
     {{ $data->links() }}
 </div>
 <!--_footer 作为公共模版分离出去-->
@@ -144,63 +153,6 @@
     }*/
 
     /*搜索事件*/
-    function search() {
-        var parentId = $('#parentId') . val();
-        var keyword = $('#keyword') . val();
-        $.ajax({
-            type: 'get',
-            url: '/admin/nav/index',
-            data: {
-                parentId: parentId,
-                keyword: keyword,
-                _token: "{{ csrf_token() }}"
-            },
-            dataType: 'json',
-            success: function(info){
-                //console.log(info);
-                $('#list-item') . empty();
-                $('#statistics') . empty();
-                var data = info.data;
-                var total = info.paginate;
-                $('#statistics') . append(total);
-
-                var str = '';
-
-                str += '<tr class="text-c">' +
-                    '<td><input type="checkbox" value="' + data.id + '" name="ids"></td>' +
-                    '<td>' + data.id + '</td>' +
-                    '<td>' + data.nav_name + '</td>' +
-                    '<td>顶级分类</td>' +
-                    '<td>' + data.url + '</td>' +
-                    '<td>'+ data.position +'</td>' +
-                    '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
-                    '</tr>';
-
-                for(var i = 0; i < data.children.length; i++) {
-                    if (data.children[i].position === 0) {
-                        data.children[i].position = '头尾';
-                    }else if(data.children[i].position === 1) {
-                        data.children[i].position = '头部';
-                    }else if(data.children[i].position == 2) {
-                        data.children[i].position = '尾部';
-                    }
-                    str += '<tr class="text-c">' +
-                        '<td><input type="checkbox" value="' + data.children[i].id + '" name="ids"></td>' +
-                        '<td>' + data.children[i].id + '</td>' +
-                        '<td>' + data.children[i].nav_name + '</td>' +
-                        '<td>' + data.nav_name + '</td>' +
-                        '<td>' + data.children[i].url + '</td>' +
-                        '<td>'+ data.children[i].position +'</td>' +
-                        '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.children[i].id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.children[i].id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
-                    '</tr>';
-                }
-                $('#list-item') .append(str);
-            },
-            error:function(info) {
-                console.log(info);
-            },
-        });
-    }
 
     /*批量删除*/
     function datadel() {

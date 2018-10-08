@@ -20,46 +20,25 @@
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
     <title>添加导航 - 导航管理 - H-ui.admin v3.1</title>
-    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
 </head>
 <body>
 <article class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>导航名称：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>新闻名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" id="nav_name" name="nav_name">
+                <input type="text" class="input-text" id="news_name" name="news_name">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">位置：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属分类：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="position" size="1">
-				<option value="0">--头尾--</option>
-				<option value="1">--头部--</option>
-				<option value="2">--尾部--</option>
-			</select>
-			</span> </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">所属分类：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="parent_id" size="1">
-				<option value="0">--顶级分类--</option>
+			<select class="select" name="menu_id" size="1">
+				<option value="0">--请选择--</option>
                 @foreach($menu as $v)
                     <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
-                @endforeach
-			</select>
-			</span> </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">导航类型：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="type_id" size="1">
-				<option value="0">--请选择--</option>
-                @foreach($type as $v)
-                    <option value="{{ $v['id'] }}">{{ $v['type_name'] }}</option>
                 @endforeach
 			</select>
 			</span> </div>
@@ -90,9 +69,9 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">导航内容：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>新闻内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="nav_content" cols="" rows="" class="textarea" dragonfly="true"></textarea>
+                <textarea name="news_content" cols="" rows="" class="textarea" dragonfly="true"></textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -126,32 +105,43 @@
 
         $("#form-admin-add").validate({
             rules:{
-                nav_name:{
+                news_name:{
                     required:true,
                     minlength:1,
-                    maxlength:8
+                    maxlength:25
                 },
-                position:{
+                menu_id:{
+                    required:true,
+                    min: 1,
+                },
+                news_content:{
                     required:true,
                 },
-                parent_id:{
-                    required:true,
-                },
+
             },
-            focusCleanup:true,
+            focusCleanup:false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/admin/nav/add" ,
+                    url: "/admin/news/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         layer.msg('添加成功!',{icon:1,time:1000});
+
+                        function closeModul() {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.$('.btn-refresh').click();
+                            parent.layer.close(index);
+                        }
+
+                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
+
                 /*var index = parent.layer.getFrameIndex(window.name);
                 parent.$('.btn-refresh').click();
                 parent.layer.close(index);*/

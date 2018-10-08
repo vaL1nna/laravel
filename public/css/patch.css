@@ -1,0 +1,16 @@
+.text-c{
+    line-height: 35px;
+}
+.select-news{
+    padding: 6px 5px;
+    font-size: 14px;
+}
+.input-text,.btn{
+    height: 35px;
+}
+
+.OrderInput{
+    width: 30px;
+    text-align: center;
+    border: 1px solid darkgray;
+}

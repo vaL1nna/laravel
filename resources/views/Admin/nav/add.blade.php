@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">位置：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 位置：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="position" size="1">
 				<option value="0">--头尾--</option>
@@ -43,7 +43,7 @@
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">所属分类：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 所属分类：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="parent_id" size="1">
 				<option value="0">--顶级分类--</option>
@@ -54,7 +54,7 @@
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">导航类型：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 导航类型：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="type_id" size="1">
 				<option value="0">--请选择--</option>
@@ -138,7 +138,7 @@
                     required:true,
                 },
             },
-            focusCleanup:true,
+            focusCleanup:false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
@@ -147,6 +147,14 @@
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         layer.msg('添加成功!',{icon:1,time:1000});
+
+                        function closeModul() {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.$('.btn-refresh').click();
+                            parent.layer.close(index);
+                        }
+
+                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

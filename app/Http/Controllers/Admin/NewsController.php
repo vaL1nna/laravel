@@ -10,39 +10,31 @@ class NewsController extends CommonController
 {
     public function list(Request $request)
     {
-        if ($request->isMethod('post')) {
-            //接受参数
-            $menu_id = $request->menu_id;
-            $keyword = $request->keyword;
+        //接受参数
+        $menu_id = $request->menu_id;
+        $keyword = $request->keyword;
 
-            //获取数据
-            $data = News::with(['parent']);
+        //获取数据
+        $data = News::with(['parent']);
 
-            if (isset($menu_id)) {
-                $data = $data->where('menu_id', $menu_id);
-            }
-
-            if (isset($keyword)) {
-                $data = $data->where(function ($query) use ($keyword){
-                    $query->where('news_name', 'like', '%' . strtoupper($keyword) . '%');
-                });
-            }
-
-            $total = $data->count();
-            $data = $data->paginate(10);
-
-            //获取所有新闻分类信息
-            $menu = Nav::where('type_id', '3')->orderBy('order_id')->get();
-            return view('Admin.news.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
+        if (isset($menu_id)) {
+            $data = $data->where('menu_id', $menu_id);
         }
-        //获取所有数据
-        $data = News::with('parent');
+
+        if (isset($keyword)) {
+            $data = $data->where(function ($query) use ($keyword){
+                $query->where('news_name', 'like', '%' . strtoupper($keyword) . '%');
+            });
+        }
+
         $total = $data->count();
         $data = $data->paginate(10);
 
         //获取所有新闻分类信息
-        $menu = Nav::where('type_id', '3')->orderBy('order_id')->get();
-        return view('Admin.news.list', ['menu' => $menu, 'data' => $data, 'total' => $total]);
+        $menu = Nav::where('type_id', '4')->orderBy('order_id')->get();
+
+        return view('Admin.news.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
+
     }
 
     public function add(Request $request)
