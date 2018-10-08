@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::match(['get', 'post'], 'add', 'NewsController@add');
         Route::get('edit/{id}', 'NewsController@edit');
         Route::post('edit', 'NewsController@edit');
-        Route::post('del', 'NewsController@list');
+        Route::post('del', 'NewsController@del');
         Route::post('batchUpdate', 'NewsController@batchUpdate');
         Route::post('batchDel', 'NewsController@batchDel');
     });

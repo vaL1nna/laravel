@@ -62,7 +62,7 @@ class NewsController extends CommonController
             $id = $request->id;
             $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
 
-            $data = News::find($id)->update($params);
+            News::find($id)->update($params);
         }
         $id = $request->id;
         $info = News::find($id)->first();
@@ -72,6 +72,19 @@ class NewsController extends CommonController
 
 
         return view('Admin.news.edit', ['menu' => $menu, 'info' => $info]);
+    }
+
+    public function del(Request $request)
+    {
+        $id = $request->id;
+        $rs = News::find($id)->delete();
+
+        if ($rs === false) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
+
     }
 
     public function batchUpdate(Request $request)
