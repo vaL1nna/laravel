@@ -42,9 +42,9 @@
     </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="admin_add('添加导航','/admin/news/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a>
-            <a href="javascript:;" onclick="dataedit()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量编辑</a>
-            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+            <a href="javascript:;" onclick="admin_add('添加新闻','/admin/news/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a>
+            <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
+            <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
     <form action="amdin/news/list" method="post">
@@ -68,9 +68,9 @@
                 <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
                 <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name=""/> </td>
                 <td>{{ $v->news_name }}</td>
-                <td>@if(!empty($v->parent->news_name)) {{ $v->parent->news_name }} @else 顶级分类 @endif</td>
+                <td>{{ $v->parent->nav_name }}</td>
                 <td>{{ $v->url }}</td>
-                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('新闻编辑','/admin/news/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
             </tr>
             @endforeach
             </tbody>
@@ -106,7 +106,7 @@
         layer.confirm('确认要删除吗？',function(index){
             $.ajax({
                 type: 'POST',
-                url: '/admin/nav/del',
+                url: '/admin/news/del',
                 data: {
                     id: id,
                     _token: "{{ csrf_token() }}"
@@ -155,7 +155,7 @@
     /*搜索事件*/
 
     /*批量删除*/
-    function datadel() {
+    function batchDel() {
         layer.confirm('确认要删除吗？',function(index) {
             var ids = [];
             $("input[name='ids']").each(function (index, value) {
@@ -167,7 +167,7 @@
             //console.log(a);
             $.ajax({
                 type: 'POST',
-                url: '/admin/nav/batchDel',
+                url: '/admin/news/batchDel',
                 data: {
                     ids: ids,
                     _token: "{{ csrf_token() }}"
@@ -175,6 +175,11 @@
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('已删除!',{icon:1,time:1000});
+
+                    function flushPage(){
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
                 },
                 error: function (data) {
                     console.log(data.msg);

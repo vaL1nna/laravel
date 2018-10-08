@@ -154,7 +154,7 @@
                             parent.layer.close(index);
                         }
 
-                        setTimeout(closeModul,1000)
+                        setTimeout(closeModul,500)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

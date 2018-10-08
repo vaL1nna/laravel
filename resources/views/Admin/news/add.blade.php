@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加导航 - 导航管理 - H-ui.admin v3.1</title>
+    <title></title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 </head>
@@ -135,7 +135,7 @@
                             parent.layer.close(index);
                         }
 
-                        setTimeout(closeModul,1000)
+                        setTimeout(closeModul,500)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
