@@ -59,7 +59,7 @@
             <label class="form-label col-xs-4 col-sm-3">上传PDF：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-2" id="uploadfile-2" readonly>
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-2" id="uploadfile-2" readonly >
                     <a href="javascript:void()" class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
@@ -199,8 +199,7 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-
-        $("#form-admin-add").validate({
+            $("#form-admin-add").validate({
             rules:{
                 product_name:{
                     required:true,
@@ -211,6 +210,12 @@
                     required:true,
                     min: 1,
                 },
+            },
+            messages:{
+                menu_id:{
+                    required:"请填入分类",
+                    min:"所属分类必填"
+                }
             },
             focusCleanup:false,
             success:"valid",

@@ -47,7 +47,7 @@
             <label class="form-label col-xs-4 col-sm-3">上传图片：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly value="{{$info->product_image}}">
                     <a href="javascript:void();" class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
@@ -59,7 +59,7 @@
             <label class="form-label col-xs-4 col-sm-3">上传PDF：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-2" id="uploadfile-2" readonly>
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-2" id="uploadfile-2" readonly value="{{$info->product_file}}">
                     <a href="javascript:void()" class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
@@ -200,6 +200,23 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
+
+        //验证文件类型
+        $.validator.addMethod("checkPic", function(value, element) {
+            var filepath=$("#uploadfile-1").val();
+            //获得上传文件名
+            var fileArr=filepath.split("\\");
+            var fileTArr=fileArr[fileArr.length-1].toLowerCase().split(".");
+            var filetype=fileTArr[fileTArr.length-1];
+
+            //切割出后缀文件名
+            if(filetype != "jpg"){
+                return false;
+            }else{
+                return true;
+            }
+
+        }, "上传图片格式不适合");
 
         $("#form-admin-add").validate({
             rules:{
