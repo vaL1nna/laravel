@@ -128,16 +128,12 @@
                     success: function(data){
                         layer.msg('修改成功!',{icon:1,time:1000});
                         function closeModul() {
+                            parent.location.reload();
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.$('.btn-refresh').click();
                             parent.layer.close(index);
                         }
-
-                        setTimeout(closeModul,500)
-                        function flushPage(){
-                            window.location.reload();
-                        }
-                        setTimeout(flushPage,1000)
+                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
