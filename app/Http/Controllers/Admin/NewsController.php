@@ -17,7 +17,7 @@ class NewsController extends CommonController
         //获取数据
         $data = News::with(['parent']);
 
-        if (isset($menu_id)) {
+        if (!empty($menu_id)) {
             $data = $data->where('menu_id', $menu_id);
         }
 
@@ -28,7 +28,7 @@ class NewsController extends CommonController
         }
 
         $total = $data->count();
-        $data = $data->paginate(10);
+        $data = $data->orderBy('order_id')->paginate(10);
 
         //获取所有新闻分类信息
         $menu = Nav::where('type_id', '4')->orderBy('order_id')->get();
