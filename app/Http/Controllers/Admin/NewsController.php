@@ -31,7 +31,7 @@ class NewsController extends CommonController
         $data = $data->orderBy('order_id')->paginate(10);
 
         //获取所有新闻分类信息
-        $menu = Nav::where('type_id', '4')->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.news.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
 
@@ -48,7 +48,7 @@ class NewsController extends CommonController
             $data->save();
         }
         //获取所有分类信息
-        $menu = Nav::where('type_id', 4)->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.news.add', ['menu' => $menu]);
 
@@ -65,10 +65,10 @@ class NewsController extends CommonController
             News::find($id)->update($params);
         }
         $id = $request->id;
-        $info = News::find($id)->first();
+        $info = News::find($id);
 
         //获取所有分类信息
-        $menu = Nav::where('type_id', 4)->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
 
         return view('Admin.news.edit', ['menu' => $menu, 'info' => $info]);

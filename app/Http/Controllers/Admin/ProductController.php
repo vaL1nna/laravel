@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Product;
+use App\Nav;
 use Illuminate\Http\Request;
 
 class ProductController extends CommonController
@@ -27,7 +28,7 @@ class ProductController extends CommonController
         }
 
         $total = $data->count();
-        $data = $data->paginate(10);
+        $data = $data->orderBy('order_id')->paginate(10);
 
         //获取所有新闻分类信息
         $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
@@ -40,14 +41,14 @@ class ProductController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url');
+            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'product_image', 'product_file', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10');
 
             $data = Product::create($params);
             $data->order_id = $data->id;
             $data->save();
         }
         //获取所有分类信息
-        $menu = Nav::where('type_id', 2)->where('parent_id', '!=', '0')->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.product.add', ['menu' => $menu]);
 
@@ -59,15 +60,15 @@ class ProductController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url');
+            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'product_image', 'product_file', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10');
 
             Product::find($id)->update($params);
         }
         $id = $request->id;
-        $info = Product::find($id)->first();
+        $info = Product::find($id);
 
         //获取所有分类信息
-        $menu = Nav::where('type_id', 4)->where('parent_id', '!=', '0')->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
 
         return view('Admin.product.edit', ['menu' => $menu, 'info' => $info]);

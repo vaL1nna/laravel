@@ -20,6 +20,7 @@ class Product extends Model
         'product_content',
         'product_file',
         'product_image',
+        'is_show',
         'product_attribute1',
         'product_attribute2',
         'product_attribute3',
