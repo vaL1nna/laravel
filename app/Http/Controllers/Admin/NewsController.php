@@ -16,25 +16,24 @@ class NewsController extends CommonController
             $keyword = $request->keyword;
 
             //获取数据
-            $data = Nav::with('children');
+            $data = News::with(['parent']);
 
-            if (isset($parentId)) {
-                $data = $data->where('id', $parentId);
+            if (isset($menu_id)) {
+                $data = $data->where('menu_id', $menu_id);
             }
 
             if (isset($keyword)) {
-                $data = $data->where(function ($query) use ($keyword) {
-                    $query->where('nav_name', 'like', '%' . strtoupper($keyword) . '%');
+                $data = $data->where(function ($query) use ($keyword){
+                    $query->where('news_name', 'like', '%' . strtoupper($keyword) . '%');
                 });
             }
 
-            $data = $data->first()->toArray();
-            $paginate = count($data['children']) + 1;
+            $total = $data->count();
+            $data = $data->paginate(10);
 
-            return response()->json([
-                'data' => $data,
-                'paginate' => $paginate
-            ]);
+            //获取所有新闻分类信息
+            $menu = Nav::where('type_id', '3')->orderBy('order_id')->get();
+            return view('Admin.news.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
         }
         //获取所有数据
         $data = News::with('parent');
@@ -81,6 +80,45 @@ class NewsController extends CommonController
 
 
         return view('Admin.news.add', ['menu' => $menu, 'data' => $data]);
+    }
 
+    public function batchUpdate(Request $request)
+    {
+        //接受参数
+        $ids = $request->ids;
+        $errors = [];
+
+        foreach ($ids as $id) {
+            $rs = News::find($id)->update();
+            if ($rs === false) {
+                $errors[] = $id;
+            }
+        }
+
+        if (!empty($errors)) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
+    }
+
+    public function batchDelete(Request $request)
+    {
+        //接受参数
+        $ids = $request->ids;
+        $errors = [];
+
+        foreach ($ids as $id) {
+            $rs = News::find($id)->delete();
+            if ($rs === false) {
+                $errors[] = $id;
+            }
+        }
+
+        if (!empty($errors)) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
     }
 }
