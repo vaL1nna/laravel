@@ -16,7 +16,7 @@ class ProductController extends CommonController
         //获取数据
         $data = Product::with(['parent']);
 
-        if (isset($menu_id)) {
+        if (!empty($menu_id)) {
             $data = $data->where('menu_id', $menu_id);
         }
 
