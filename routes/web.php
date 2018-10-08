@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('register');
 
 //登陆模块
 Route::match(["get", "post"], "admin/login", "Admin\ManagerController@login")->name('login');
@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::get('edit/{id}', 'NewsController@edit');
         Route::post('edit', 'NewsController@edit');
         Route::post('del', 'NewsController@list');
+        Route::post('batchUpdate', 'NewsController@batchUpdate');
         Route::post('batchDel', 'NewsController@batchDel');
     });
 });

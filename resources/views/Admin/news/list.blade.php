@@ -66,7 +66,7 @@
             @foreach($data as $v)
             <tr class="text-c">
                 <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}"/> </td>
+                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}" id="order_id{{ $v->id }}"/> </td>
                 <td>{{ $v->news_name }}</td>
                 <td>{{ $v->parent->nav_name }}</td>
                 <td>{{ $v->url }}</td>
@@ -149,6 +149,9 @@
                 url: '/admin/news/batchUpdate',
                 data: {
                     ids: ids,
+                    @foreach($data as $v)
+                        order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
+                    @endforeach
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: 'json',

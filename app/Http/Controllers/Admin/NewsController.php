@@ -65,13 +65,13 @@ class NewsController extends CommonController
             $data = News::find($id)->update($params);
         }
         $id = $request->id;
-        $data = News::find('id', $id);
+        $info = News::find($id)->first();
 
         //获取所有分类信息
         $menu = Nav::where('type_id', 4)->orderBy('order_id')->get();
 
 
-        return view('Admin.news.add', ['menu' => $menu, 'data' => $data]);
+        return view('Admin.news.edit', ['menu' => $menu, 'info' => $info]);
     }
 
     public function batchUpdate(Request $request)
@@ -81,7 +81,9 @@ class NewsController extends CommonController
         $errors = [];
 
         foreach ($ids as $id) {
-            $rs = News::find($id)->update();
+            $order_id = 'order_id' . $id;
+            $order_id = $request->input($order_id);
+            $rs = News::find($id)->update(['order_id' => $order_id]);
             if ($rs === false) {
                 $errors[] = $id;
             }
@@ -94,7 +96,7 @@ class NewsController extends CommonController
         }
     }
 
-    public function batchDelete(Request $request)
+    public function batchDel(Request $request)
     {
         //接受参数
         $ids = $request->ids;
