@@ -23,42 +23,44 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>新闻列表</title>
+    <title>产品列表</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 新闻管理 <span class="c-gray en">&gt;</span> 新闻列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 产品管理 <span class="c-gray en">&gt;</span> 产品列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <form action="/admin/news/list" method="get">
+    <form action="/admin/product/list" method="get">
         <div class="text-c"> 所属分类：
-            <select class="select-news" name="menu_id" id="menu_id">
+            <select class="select-news" name="parentId" id="parentId">
                 <option value="0">--请选择--</option>
                 @foreach($menu as $v)
-                <option value="{{ $v['id'] }}" @if(isset($menu_id) && $menu_id == $v['id']) selected @endif>{{ $v['nav_name'] }}</option>
+                <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
                 @endforeach
             </select>
-            <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif>
+            <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword">
             <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
         </div>
     </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="admin_add('添加新闻','/admin/news/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a>
+            <a href="javascript:;" onclick="admin_add('添加产品','/admin/product/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加产品</a>
             <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
             <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
-    <form action="amdin/news/list" method="post">
+    <form action="amdin/product/list" method="post">
         <table class="table table-border table-bordered table-bg" id="list">
             <thead>
             <tr>
-                <th scope="col" colspan="9">新闻列表</th>
+                <th scope="col" colspan="9">产品列表</th>
             </tr>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
                 <th width="30">排序</th>
-                <th width="150">新闻名称</th>
-                <th width="150">所属分类</th>
-                <th width="90">url</th>
+                <th width="100">产品名称</th>
+                <th width="100">所属分类</th>
+                <th width="120">产品图片</th>
+                <th width="120">产品PDF</th>
+                <th width="100">是否显示</th>
                 <th width="100">操作</th>
             </tr>
             </thead>
@@ -67,10 +69,12 @@
             <tr class="text-c">
                 <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
                 <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}" id="order_id{{ $v->id }}"/> </td>
-                <td>{{ $v->news_name }}</td>
+                <td>{{ $v->product_name }}</td>
                 <td>{{ $v->parent->nav_name }}</td>
-                <td>{{ $v->url }}</td>
-                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('新闻编辑','/admin/news/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                <td>{{ $v->product_image }}</td>
+                <td>{{ $v->product_file }}</td>
+                <td>@if($v->is_show == 1) 显示 @else 不显示 @endif</td>
+                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('产品编辑','/admin/product/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
             </tr>
             @endforeach
             </tbody>
@@ -106,7 +110,7 @@
         layer.confirm('确认要删除吗？',function(index){
             $.ajax({
                 type: 'POST',
-                url: '/admin/news/del',
+                url: '/admin/product/del',
                 data: {
                     id: id,
                     _token: "{{ csrf_token() }}"
@@ -146,7 +150,7 @@
             //console.log(a);
             $.ajax({
                 type: 'POST',
-                url: '/admin/news/batchUpdate',
+                url: '/admin/product/batchUpdate',
                 data: {
                     ids: ids,
                     @foreach($data as $v)
@@ -183,7 +187,7 @@
             //console.log(a);
             $.ajax({
                 type: 'POST',
-                url: '/admin/news/batchDel',
+                url: '/admin/product/batchDel',
                 data: {
                     ids: ids,
                     _token: "{{ csrf_token() }}"
