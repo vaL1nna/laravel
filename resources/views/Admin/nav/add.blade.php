@@ -153,8 +153,12 @@
                             parent.$('.btn-refresh').click();
                             parent.layer.close(index);
                         }
-
                         setTimeout(closeModul,500)
+
+                        function flushPage(){
+                            window.location.reload();
+                        }
+                        setTimeout(flushPage,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

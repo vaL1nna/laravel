@@ -148,13 +148,18 @@
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         layer.msg('修改成功!',{icon:1,time:1000});
+                        //0.5s后关闭模态框
                         function closeModul() {
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.$('.btn-refresh').click();
                             parent.layer.close(index);
                         }
-
                         setTimeout(closeModul,500);
+                        //1s后刷新页面
+                        function flushPage(){
+                            window.location.reload();
+                        }
+                        setTimeout(flushPage,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

@@ -66,7 +66,7 @@
             @foreach($data as $v)
             <tr class="text-c">
                 <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name=""/> </td>
+                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}"/> </td>
                 <td>{{ $v->news_name }}</td>
                 <td>{{ $v->parent->nav_name }}</td>
                 <td>{{ $v->url }}</td>
@@ -115,6 +115,11 @@
                 success: function(data){
                     $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});
+
+                    function flushPage() {
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
                 },
                 error:function(data) {
                     console.log(data.msg);
@@ -127,32 +132,40 @@
     function admin_edit(title,url,id,w,h){
         layer_show(title,url + '/' + id,w,h);
     }
-    /*导航-停用*/
-    /*function admin_stop(obj,id){
-        layer.confirm('确认要停用吗？',function(index){
-            //此处请求后台程序，下方是成功后的前台处理……
 
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-            $(obj).remove();
-            layer.msg('已停用!',{icon: 5,time:1000});
+    /*批量更新*/
+    function batchUpdate() {
+        layer.confirm('确认要更新吗？',function(index) {
+            var ids = [];
+            $("input[name='ids']").each(function (index, value) {
+                if (this.checked) {
+                    ids.push(this.value);
+                }
+            });
+
+            //console.log(a);
+            $.ajax({
+                type: 'POST',
+                url: '/admin/news/batchUpdate',
+                data: {
+                    ids: ids,
+                    _token: "{{ csrf_token() }}"
+                },
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('已更新!',{icon:1,time:1000});
+
+                    function flushPage(){
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
         });
     }
-
-    导航-启用*/
-    /*function admin_start(obj,id){
-        layer.confirm('确认要启用吗？',function(index){
-            //此处请求后台程序，下方是成功后的前台处理……
-
-
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-            $(obj).remove();
-            layer.msg('已启用!', {icon: 6,time:1000});
-        });
-    }*/
-
-    /*搜索事件*/
 
     /*批量删除*/
     function batchDel() {

@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin" />
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/css/page.css">
+    <link rel="stylesheet" type="text/css" href="/css/patch.css">
     <!--[if IE 6]>
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -28,7 +29,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 导航管理 <span class="c-gray en">&gt;</span> 导航列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c"> 所属分类：
-        <select name="parentId" id="parentId">
+        <select class="select-news" name="parentId" id="parentId">
             <option value="0">--请选择--</option>
             @foreach($menu as $v)
             <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
@@ -113,6 +114,11 @@
                 success: function(data){
                     $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});
+
+                    function flushPage(){
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
                 },
                 error:function(data) {
                     console.log(data.msg);
@@ -230,6 +236,11 @@
                 dataType: 'json',
                 success: function (data) {
                     layer.msg('已删除!',{icon:1,time:1000});
+
+                    function flushPage(){
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
                 },
                 error: function (data) {
                     console.log(data.msg);

@@ -4,6 +4,8 @@
 .select-news{
     padding: 6px 5px;
     font-size: 14px;
+    box-sizing: border-box;
+    height: 37px;
 }
 .input-text,.btn{
     height: 35px;
