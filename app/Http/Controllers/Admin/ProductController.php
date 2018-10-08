@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Product;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ProductController extends CommonController
 {
@@ -30,7 +30,7 @@ class ProductController extends CommonController
         $data = $data->paginate(10);
 
         //获取所有新闻分类信息
-        $menu = Nav::where('type_id', '4')->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.product.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
 
@@ -47,7 +47,7 @@ class ProductController extends CommonController
             $data->save();
         }
         //获取所有分类信息
-        $menu = Nav::where('type_id', 4)->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', 2)->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.product.add', ['menu' => $menu]);
 
@@ -67,7 +67,7 @@ class ProductController extends CommonController
         $info = Product::find($id)->first();
 
         //获取所有分类信息
-        $menu = Nav::where('type_id', 4)->orderBy('order_id')->get();
+        $menu = Nav::where('type_id', 4)->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
 
         return view('Admin.product.edit', ['menu' => $menu, 'info' => $info]);
