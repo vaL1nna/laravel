@@ -119,6 +119,11 @@
                 },
 
             },
+            messages:{
+                menu_id:{
+                    min:"所属分类必填"
+                }
+            },
             focusCleanup:false,
             success:"valid",
             submitHandler:function(form){

@@ -213,7 +213,6 @@
             },
             messages:{
                 menu_id:{
-                    required:"请填入分类",
                     min:"所属分类必填"
                 }
             },

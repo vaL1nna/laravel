@@ -106,19 +106,25 @@
 
         $("#form-admin-add").validate({
             rules:{
-                nav_name:{
+                news_name:{
                     required:true,
                     minlength:1,
-                    maxlength:8
+                    maxlength:25
                 },
-                position:{
+                menu_id:{
                     required:true,
+                    min: 1,
                 },
-                parent_id:{
+                news_content:{
                     required:true,
                 },
             },
-            focusCleanup:true,
+            messages:{
+                menu_id:{
+                    min:"所属分类必填"
+                }
+            },
+            focusCleanup: false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({

@@ -137,6 +137,16 @@
                 parent_id:{
                     required:true,
                 },
+                type_id: {
+                    required:true,
+                    min: 1,
+                }
+            },
+            messages: {
+                type_id: {
+                    required: '请选择导航类型',
+                    min: '导航类型必须选择'
+                },
             },
             focusCleanup:false,
             success:"valid",
