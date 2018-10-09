@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加导航 - 导航管理 - H-ui.admin v3.1</title>
+    <title></title>
     <meta name="keywords" content="">
     <meta name="description" content="">
 </head>
@@ -177,6 +177,5 @@
         });
     });
 </script>
-<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

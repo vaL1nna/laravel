@@ -76,7 +76,7 @@
             <dt><i class="Hui-iconfont">&#xe616;</i> 导航管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/nav/index" data-title="导航管理" href="javascript:void(0)">导航管理</a></li>
+                    <li><a data-href="/admin/nav/list" data-title="导航管理" href="javascript:void(0)">导航管理</a></li>
                 </ul>
             </dd>
         </dl>
