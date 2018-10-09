@@ -88,7 +88,7 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['file'] = str_replace('public', '/storage', $path);
+                    $params['mg_pic'] = str_replace('public', '/storage', $path);
                 }
             }
 
@@ -123,10 +123,10 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['file'] = str_replace('public', '/storage', $path);
+                    $params['mg_pic'] = str_replace('public', '/storage', $path);
                 }
             }else{
-                $params['file'] = $info['file'];
+                $params['mg_pic'] = $info['mg_pic'];
             }
 
             $manager = Manager::find($id)->update($params);

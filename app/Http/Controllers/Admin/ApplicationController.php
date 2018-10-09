@@ -47,7 +47,10 @@ class ApplicationController extends Controller
                 }
             }
             //获取父类id
-            $parent = Nav::where('parent_id', '0')->where('nav_type', '3')->first();
+            $parent = Nav::where('parent_id', '0')->where('type_id', '3')->first();
+            if (empty($parent)) {
+                return response()->json(['error' => '请先添加相应导航']);
+            }
             $params['parent_id'] = $parent->id;
             $params['type_id'] = $parent->type_id;
             $data = Nav::create($params);
@@ -58,7 +61,7 @@ class ApplicationController extends Controller
             }
         }
 
-        return view('Admin.nav.add');
+        return view('Admin.application.add');
     }
 
     public function edit(Request $request)
@@ -90,7 +93,7 @@ class ApplicationController extends Controller
             return response()->json($nav);
         }
 
-        return view('Admin.nav.edit', ['info' => $info]);
+        return view('Admin.application.edit', ['info' => $info]);
     }
 
     public function del(Request $request)

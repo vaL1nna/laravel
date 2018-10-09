@@ -76,7 +76,7 @@
             <dt><i class="Hui-iconfont">&#xe616;</i> 导航管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/nav/list" data-title="导航管理" href="javascript:void(0)">导航管理</a></li>
+                    <li><a data-href="/admin/nav/list " data-title="导航管理" href="javascript:void(0)">导航列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -84,7 +84,7 @@
             <dt><i class="Hui-iconfont">&#xe613;</i> 新闻管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/news/list" data-title="新闻管理" href="javascript:void(0)">新闻管理</a></li>
+                    <li><a data-href="/admin/news/list" data-title="新闻管理" href="javascript:void(0)">新闻列表</a></li>
                 </ul>
             </dd>
         </dl>
@@ -92,15 +92,15 @@
             <dt><i class="Hui-iconfont">&#xe620;</i> 产品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/product/list" data-title="产品管理" href="javascript:void(0)">产品管理</a></li>
+                    <li><a data-href="/admin/product/list" data-title="产品管理" href="javascript:void(0)">产品列表</a></li>
                 </ul>
             </dd>
         </dl>
         <dl id="menu-comments">
-            <dt><i class="Hui-iconfont">&#xe622;</i> 应用领域<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dt><i class="Hui-iconfont">&#xe622;</i> 应用领域管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="/admin/application/list" data-title="应用领域" href="javascript:void(0)">应用领域</a></li>
+                    <li><a data-href="/admin/application/list" data-title="应用领域" href="javascript:void(0)">应用领域列表</a></li>
                 </ul>
             </dd>
         </dl>
