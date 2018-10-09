@@ -65,6 +65,17 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::post('batchUpdate', 'ProductController@batchUpdate');
         Route::post('batchDel', 'ProductController@batchDel');
     });
+
+    //应该领域模块
+    Route::group(['prefix' => 'application'], function (){
+        Route::get('list', 'ApplicationController@list');
+        Route::match(['get', 'post'], 'add', 'ApplicationController@add');
+        Route::get('edit/{id}', 'ApplicationController@edit');
+        Route::post('edit', 'ApplicationController@edit');
+        Route::post('del', 'ApplicationController@del');
+        Route::post('batchUpdate', 'ApplicationController@batchUpdate');
+        Route::post('batchDel', 'ApplicationController@batchDel');
+    });
 });
 
 //前台模块
