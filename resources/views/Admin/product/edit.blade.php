@@ -232,7 +232,7 @@
                     url: "/admin/product/edit" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        if (data.error !== null) {
+                        if (data.error !== undefined) {
                             layer.msg(data.error, {icon:1,time:1000});
                         }else{
                             layer.msg('更新成功!',{icon:1,time:1000});

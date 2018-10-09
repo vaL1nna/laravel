@@ -71,8 +71,8 @@
                 <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}" id="order_id{{ $v->id }}"/> </td>
                 <td>{{ $v->product_name }}</td>
                 <td>{{ $v->parent->nav_name }}</td>
-                <td><img src="{{ $v->product_image }}" alt="没有图片" width="100px"></td>
-                <td><a href="{{ env('APP_URL') . $v->product_file }}" target="_blank">{{ str_replace('/storage/','',$v->product_file) }}</a></td>
+                <td>@if(isset($v->product_image))<img src="{{ $v->product_image }}" alt="没有图片" width="100px">@endif</td>
+                <td>@if(isset($v->product_file))<a href="{{ env('APP_URL') . $v->product_file }}" target="_blank">{{ str_replace('/storage/','',$v->product_file) }}</a>@endif</td>
                 <td>@if($v->is_show == 1) 显示 @else 不显示 @endif</td>
                 <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('产品编辑','/admin/product/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
             </tr>
