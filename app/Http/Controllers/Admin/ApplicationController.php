@@ -47,8 +47,9 @@ class ApplicationController extends Controller
                 }
             }
             //获取父类id
-            $parent_id = Nav::where('parent_id', '0')->where('nav_type', '3')->first()->id;
-            $params['parent_id'] = $parent_id;
+            $parent = Nav::where('parent_id', '0')->where('nav_type', '3')->first();
+            $params['parent_id'] = $parent->id;
+            $params['type_id'] = $parent->type_id;
             $data = Nav::create($params);
             $data->order_id = $data->id;
             $result = $data->save();
