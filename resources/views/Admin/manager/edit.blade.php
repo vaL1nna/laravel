@@ -19,9 +19,9 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
-    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+    <title>管理员编辑 - 管理员管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
 </head>
 <body>
 <article class="page-container">
@@ -29,18 +29,18 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="{{ $data->username }}" placeholder="" id="username" name="username">
+                <input type="text" class="input-text" value="{{ $info->username }}" placeholder="" id="username" name="username">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input name="mg_sex" value="男" type="radio" id="sex-1" @if($data['mg_sex'] == '男') checked @endif>
+                    <input name="mg_sex" value="男" type="radio" id="sex-1" @if($info['mg_sex'] == '男') checked @endif>
                     <label for="sex-1">男</label>
                 </div>
                 <div class="radio-box">
-                    <input name="mg_sex" value="女" type="radio" id="sex-2" @if($data['mg_sex'] == '女') checked @endif>
+                    <input name="mg_sex" value="女" type="radio" id="sex-2" @if($info['mg_sex'] == '女') checked @endif>
                     <label for="sex-2">女</label>
                 </div>
             </div>
@@ -48,13 +48,13 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="{{ $data->mg_phone }}" placeholder="" id="mg_phone" name="mg_phone">
+                <input type="text" class="input-text" value="{{ $info->mg_phone }}" placeholder="" id="mg_phone" name="mg_phone">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="{{ $data->mg_email }}" name="mg_email" id="mg_email">
+                <input type="text" class="input-text" value="{{ $info->mg_email }}" name="mg_email" id="mg_email">
             </div>
         </div>
         <div class="row cl">
@@ -62,32 +62,21 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
                     <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
-                    <a href="javascript:void();" class="btn btn-primary radius">
+                    <a href=" " class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
-                    <input type="file" multiple name="file" class="input-file">
+                <input type="file" multiple name="file" class="input-file">
                 </span>
-                @if(!empty($data->mg_pic))
-                    <img src="{{ $data->mg_pic }}" alt="没有头像" width="100px">
+                @if(!empty($info->mg_pic))
+                    <img src="{{ $info->mg_pic }}" alt="没有头像" width="100px">
                 @endif
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">角色：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="adminRole" size="1">
-				<option value="0">超级管理员</option>
-				<option value="1">总编</option>
-				<option value="2">栏目主辑</option>
-				<option value="3">栏目编辑</option>
-			</select>
-			</span> </div>
-        </div>
-        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true">{{ $data->mg_remark }}</textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true">{{ $info->mg_remark }}</textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p >
             </div>
         </div>
         <div class="row cl">
@@ -95,10 +84,9 @@
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
-        <input type="hidden" name="mg_id" value="{{ $data->mg_id }}">
+        <input type="hidden" name="id" value="{{ $info->mg_id }}">
     </form>
 </article>
-
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
@@ -123,8 +111,17 @@
             rules:{
                 username:{
                     required:true,
-                    minlength:4,
+                    minlength:1,
                     maxlength:16
+                },
+                password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 16
+                },
+                password2: {
+                    required: true,
+                    equalTo: "#password"
                 },
                 mg_sex:{
                     required:true,
@@ -137,10 +134,20 @@
                     required:true,
                     email:true,
                 },
-                adminRole:{
-                    required:true,
+            },
+            messages:{
+                username:{
+                    required:"管理员账号不能为空",
+                    minlength:"管理员账号不能少于4位",
+                    maxlength:"管理员账号不能超过16位",
+                },
+                password:{
+                    required:"初始密码不能为空",
+                    minlength:"初始密码不能少于4位",
+                    maxlength:"初始密码不能超过16位",
                 },
             },
+            focusCleanup:false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
@@ -148,12 +155,24 @@
                     url: "/admin/manager/edit" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('修改成功!',{icon:1,time:1000});
+                        if (data.error !== undefined) {
+                            layer.msg(data.error, {icon:1,time:1000});
+                        }else{
+                            layer.msg('更新成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
+                        }
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
+
                 /*var index = parent.layer.getFrameIndex(window.name);
                 parent.$('.btn-refresh').click();
                 parent.layer.close(index);*/

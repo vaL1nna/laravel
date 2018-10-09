@@ -19,9 +19,9 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
-    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+    <title>管理员添加 - 管理员管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
 </head>
 <body>
 <article class="page-container">
@@ -74,29 +74,18 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
                     <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
-                    <a href="javascript:void();" class="btn btn-primary radius">
+                    <a href=" " class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
-                    <input type="file" multiple name="file" class="input-file">
+                <input type="file" multiple name="file" class="input-file">
                 </span>
             </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">角色：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-			<select class="select" name="adminRole" size="1">
-				<option value="0">超级管理员</option>
-				<option value="1">总编</option>
-				<option value="2">栏目主辑</option>
-				<option value="3">栏目编辑</option>
-			</select>
-			</span> </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true"></textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p >
             </div>
         </div>
         <div class="row cl">
@@ -106,7 +95,6 @@
         </div>
     </form>
 </article>
-
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="/admin/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="/admin/lib/layer/2.4/layer.js"></script>
@@ -126,19 +114,20 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-
         $("#form-admin-add").validate({
             rules:{
                 username:{
                     required:true,
-                    minlength:4,
+                    minlength:1,
                     maxlength:16
                 },
-                password:{
-                    required:true,
+                password: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 16
                 },
-                password2:{
-                    required:true,
+                password2: {
+                    required: true,
                     equalTo: "#password"
                 },
                 mg_sex:{
@@ -152,11 +141,20 @@
                     required:true,
                     email:true,
                 },
-                adminRole:{
-                    required:true,
+            },
+            messages:{
+                username:{
+                    required:"管理员账号不能为空",
+                    minlength:"管理员账号不能少于4位",
+                    maxlength:"管理员账号不能超过16位",
+                },
+                password:{
+                    required:"初始密码不能为空",
+                    minlength:"初始密码不能少于4位",
+                    maxlength:"初始密码不能超过16位",
                 },
             },
-            focusCleanup:true,
+            focusCleanup:false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
@@ -164,12 +162,24 @@
                     url: "/admin/manager/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000});
+                        if (data.error !== undefined) {
+                            layer.msg(data.error, {icon:1,time:1000});
+                        }else{
+                            layer.msg('添加成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
+                        }
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
+
                 /*var index = parent.layer.getFrameIndex(window.name);
                 parent.$('.btn-refresh').click();
                 parent.layer.close(index);*/

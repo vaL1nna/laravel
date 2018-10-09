@@ -101,11 +101,11 @@
         w		弹出层宽度（缺省调默认值）
         h		弹出层高度（缺省调默认值）
     */
-    /*导航-增加*/
+    /*产品-增加*/
     function admin_add(title,url,w,h){
         layer_show(title,url,w,h);
     }
-    /*导航-删除*/
+    /*产品-删除*/
     function admin_del(obj,id){
         layer.confirm('确认要删除吗？',function(index){
             $.ajax({
@@ -117,7 +117,6 @@
                 },
                 dataType: 'json',
                 success: function(data){
-                    $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});
 
                     function flushPage() {
@@ -132,7 +131,7 @@
         });
     }
 
-    /*导航-编辑*/
+    /*产品-编辑*/
     function admin_edit(title,url,id,w,h){
         layer_show(title,url + '/' + id,w,h);
     }
