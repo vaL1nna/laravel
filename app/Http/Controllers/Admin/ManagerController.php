@@ -52,112 +52,128 @@ class ManagerController extends CommonController
         return redirect('/admin/login');
     }
 
-    //管理员列表页
+    //管理员列表
     public function list(Request $request)
     {
-        if ($request->ajax()) {
-            //获取所有数据
-            $startDate = $request->startDate;
-            $endDate = $request->endDate;
-            $keyword = $request->keyword;
-
-            //获取数据
-            $data = Manager::query();
-
-            if (isset($startDate) && isset($endDate)) {
-                $data = $data->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate);
-            }
-
-            if (isset($keyword)) {
-                $data = $data->where(function ($query) use ($keyword) {
-                    $query->where('username', 'like', '%' . strtoupper($keyword) . '%');
-                });
-            }
-
-            $paginate = $data->paginate(10);
-            $data = $data->get()->toArray();
-
-            return response()->json([
-                'data' => $data,
-                'paginate' => $paginate
-            ]);
-
-        }else{
-            //获取所有数据
-            $data = Manager::query();
-            $total = $data->count();
-            $data = $data->paginate(10);
-
-            //分配数据到模版
-            return view('Admin.manager.list', ['data' => $data, 'total' => $total]);
-        }
-    }
-
-    //管理员添加页
-    public function add(Request $request)
-    {
-        if ($request->isMethod('get')) {
-            //显示视图
-            return view('Admin.manager.add');
-        }elseif ($request->isMethod('post')) {
-            //数据处理
-            $manager = Manager::create($request->all());
-            $manager->password = bcrypt($request->input('password'));
-
-            $file = $request->file('file');
-            if ($file->isValid()) {
-                $path = $file->store('public');
-                $manager->mg_pic = str_replace('public', '/storage', $path);
-            }
-
-            //保存到数据库
-            if ($manager->save()) {
-                return ['success' => true];
-            }else{
-                return ['success' => false];
-            }
-        }
-    }
-
-    //管理员修改
-    public function edit(Request $request)
-    {
-        $id = $request->mg_id;
+        $keyword = $request->keyword;
 
         //获取数据
-        $data = Manager::where('mg_id', $id)->first();
+        $data = Manager::query();
 
-        if ($request->isMethod('get')) {
-            //加载视图
-            return view('Admin.manager.edit', ['data' => $data]);
-        }elseif ($request->isMethod('post')) {
+        if (isset($keyword)) {
+            $data = $data->where(function ($query) use ($keyword){
+                $query->where('manager_name', 'like', '%' . strtoupper($keyword) . '%');
+            });
+        }
+
+        $total = $data->count();
+        $data = $data->paginate(10);
+
+        return view('Admin.manager.list', ['data' => $data, 'total' => $total, 'keyword' => $keyword]);
+
+    }
+
+    //管理员添加
+    public function add(Request $request)
+    {
+        if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('username', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
-            $file = $request->file;
-
-            if (empty($file)) {
-                $file = $data['mg_pic'];
-                $params['mg_pic'] = $file;
-            }else{
-                if ($file->isValid()) {
-                    $path = $file->store('public');
-                    $params['mg_pic'] = str_replace('public', '/storage', $path);
+            $params = $request->only('menu_id', 'order_id', 'manager_name', 'manager_content', 'keyword', 'title', 'description', 'url', 'is_show', 'manager_attribute1', 'manager_attribute2', 'manager_attribute3', 'manager_attribute4', 'manager_attribute5', 'manager_attribute6', 'manager_attribute7', 'manager_attribute8', 'manager_attribute9', 'manager_attribute10');
+            if ($request->hasFile('manager_image')) {
+                $image = $request->file('manager_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['manager_image'] = str_replace('public', '/storage', $path);
                 }
             }
 
-            $data = Manager::where('mg_id', $id)->update($params);
-            if ($data) {
-                return ['success' => true];
-            }else{
-                return ['success' => false];
+            if ($request->hasFile('manager_file')) {
+                $file = $request->file('manager_file');
+                if ($file->isValid()) {
+                    /*$fileName = $file->getClientOriginalName();
+                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
+                    $ext = $file->getClientOriginalExtension();
+                    if ($ext != 'pdf') {
+                        return response()->json(['error' => '上传的pdf格式不正确']);
+                    }
+                    $path = $file->store('public');
+                    $params['manager_file'] = str_replace('public', '/storage', $path);
+                }
             }
+
+            $data = Manager::create($params);
+            $data->order_id = $data->id;
+            $data->save();
         }
+        //获取所有分类信息
+        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
+
+        return view('Admin.manager.add', ['menu' => $menu]);
+
+
     }
-    
+
+    //管理员编辑
+    public function edit(Request $request)
+    {
+        $id = $request->id;
+        $info = Manager::find($id);
+
+        if ($request->isMethod('post')) {
+            //接受参数
+            $id = $request->id;
+            $params = $request->only('menu_id', 'order_id', 'manager_name', 'manager_content', 'keyword', 'title', 'description', 'url', 'manager_image', 'manager_file', 'is_show', 'manager_attribute1', 'manager_attribute2', 'manager_attribute3', 'manager_attribute4', 'manager_attribute5', 'manager_attribute6', 'manager_attribute7', 'manager_attribute8', 'manager_attribute9', 'manager_attribute10');
+
+            if ($request->hasFile('manager_image')) {
+                $image = $request->file('manager_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['manager_image'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['manager_image'] = $info['manager_image'];
+            }
+
+            if ($request->hasFile('manager_file')) {
+                $file = $request->file('manager_file');
+                if ($file->isValid()) {
+                    /*$fileName = $file->getClientOriginalName();
+                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
+                    $ext = $file->getClientOriginalExtension();
+                    if ($ext != 'pdf') {
+                        return response()->json(['error' => '上传的pdf格式不正确']);
+                    }
+                    $path = $file->store('public');
+                    $params['manager_file'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['manager_file'] = $info['manager_file'];
+            }
+
+            Manager::find($id)->update($params);
+        }
+
+        //获取所有分类信息
+        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
+
+
+        return view('Admin.manager.edit', ['menu' => $menu, 'info' => $info]);
+    }
+
     //管理员删除
     public function del(Request $request)
     {
-        $id = $request->input('mg_id');
+        $id = $request->id;
         $rs = Manager::find($id)->delete();
 
         if ($rs === false) {
@@ -165,18 +181,24 @@ class ManagerController extends CommonController
         }else{
             return ['success' => true];
         }
+
     }
 
-    //管理员批量删除
-    public function batchDel(Request $request)
+    //管理员批量更新
+    public function batchUpdate(Request $request)
     {
+        //接受参数
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $rs = Manager::find($id)->delete();
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $order_id = 'order_id' . $id;
+                $order_id = $request->input($order_id);
+                $rs = Manager::find($id)->update(['order_id' => $order_id]);
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 
@@ -187,4 +209,26 @@ class ManagerController extends CommonController
         }
     }
 
+    //管理员批量删除
+    public function batchDel(Request $request)
+    {
+        //接受参数
+        $ids = $request->ids;
+        $errors = [];
+
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $rs = Manager::find($id)->delete();
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
+            }
+        }
+
+        if (!empty($errors)) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
+    }
 }

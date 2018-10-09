@@ -30,7 +30,7 @@ class ProductController extends CommonController
         $total = $data->count();
         $data = $data->orderBy('order_id')->paginate(10);
 
-        //获取所有新闻分类信息
+        //获取所有产品分类信息
         $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
         return view('Admin.product.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'menu_id' => $menu_id, 'keyword' => $keyword]);
