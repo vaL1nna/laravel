@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
 
     //导航模块
     Route::group(['prefix' => 'nav'], function (){
-        Route::get('index', 'NavController@index');
+        Route::get('list', 'NavController@list');
         Route::match(['get', 'post'], 'add', 'NavController@add');
         Route::get('edit/{id}', 'NavController@edit');
         Route::post('edit', 'NavController@edit');

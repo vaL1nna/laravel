@@ -103,7 +103,7 @@ class ManagerController extends CommonController
     //管理员编辑
     public function edit(Request $request)
     {
-        $id = $request->id;
+        $id = $request->mg_id;
         $info = Manager::find($id);
 
         if ($request->isMethod('post')) {

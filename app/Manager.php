@@ -12,12 +12,12 @@ class Manager extends Model implements \Illuminate\Contracts\Auth\Authenticatabl
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $hidden = ['password'];
 
     protected $table = "manager";
     protected $primaryKey = "mg_id";
     protected $fillable = [
         'username',
+        'password',
         'mg_role_ids',
         'mg_sex',
         'mg_phone',
