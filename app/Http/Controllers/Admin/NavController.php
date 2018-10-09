@@ -8,109 +8,107 @@ use Illuminate\Http\Request;
 
 class NavController extends CommonController
 {
-    public function index(Request $request)
+    public function list(Request $request)
     {
-        if ($request->ajax()) {
-            $parentId = $request->parentId;
-            $keyword = $request->keyword;
+        //接受参数
+        $parent_id = $request->parent_id;
+        $keyword = $request->keyword;
 
-            //获取数据
-            $data = Nav::with('children');
+        //获取数据
+        $data = Nav::with(['parent']);
 
-            if (isset($parentId)) {
-                $data = $data->where('id', $parentId);
-            }
-
-            if (isset($keyword)) {
-                $data = $data->where(function ($query) use ($keyword) {
-                    $query->where('nav_name', 'like', '%' . strtoupper($keyword) . '%');
-                });
-            }
-
-            $data = $data->first()->toArray();
-            $paginate = count($data['children']) + 1;
-
-            return response()->json([
-                'data' => $data,
-                'paginate' => $paginate
-            ]);
+        if (!empty($parent_id)) {
+            $data = $data->where('parent_id', $parent_id);
         }
-        //获取所有数据
-        $data = Nav::with('parent');
+
+        if (isset($keyword)) {
+            $data = $data->where(function ($query) use ($keyword){
+                $query->where('nav_name', 'like', '%' . strtoupper($keyword) . '%');
+            });
+        }
 
         $total = $data->count();
         $data = $data->paginate(10);
 
-        //获取所有分类
-        $menu = Nav::where('parent_id', '0')->get()->toArray();
-        $menu = $this->getTree($menu, 0, 1);
+        //获取所有导航分类信息
+        $menu = Nav::where('parent_id', '0')->get();
 
-        //分配数据到模版
-        return view('Admin.nav.list', ['data' => $data, 'total' => $total, 'menu' => $menu]);
+        return view('Admin.nav.list', ['menu' => $menu, 'data' => $data, 'total' => $total, 'parent_id' => $parent_id, 'keyword' => $keyword]);
+
     }
 
     public function add(Request $request)
     {
-        if ($request->isMethod('get')) {
-            //获取所有分类
-            $menu = Nav::where('parent_id', '0')->get()->toArray();
-            $menu = $this->getTree($menu, 0, 1);
+        if ($request->isMethod('post')){
+            //接受参数
+            $params = $request->only('nav_name', 'position', 'parent_id', 'type_id', 'keyword', 'title', 'description', 'url', 'nav_content');
 
-            //导航类型
-            $type = NavType::all();
-
-            //显示视图
-            return view('Admin.nav.add', ['menu' => $menu, 'type' => $type]);
-        }elseif ($request->isMethod('post')) {
-            $params = $request->all();
-
-            $nav = Nav::create($params);
-            $id = $nav->id;
-            Nav::where('id', $id)->update(
-                ['order_id' => $id]
-            );
-
-            if ($nav) {
-                return ['success' => true];
-            }else{
-                return ['success' => false];
+            $data = Nav::create($params);
+            if ($data) {
+                return response()->json($data);
             }
         }
+        //获取所有分类信息
+        $menu = Nav::where('parent_id', '0')->get();
+
+        //获取所有导航类型
+        $navType = NavType::all();
+        return view('Admin.nav.add', ['menu' => $menu, 'navType' => $navType]);
     }
 
     public function edit(Request $request)
     {
         $id = $request->id;
-        $info = Nav::where('id', $id)->first();
-        if ($request->isMethod('get')) {
-            //获取所有分类
-            $menu = Nav::where('parent_id', '0')->get()->toArray();
-            $menu = $this->getTree($menu, 0, 1);
+        $info = Nav::find($id);
 
-            //导航类型
-            $type = NavType::all();
-
-            return view('Admin.nav.edit', ['info' => $info, 'menu' => $menu, 'type' => $type]);
-        }elseif ($request->isMethod('post')) {
+        if ($request->isMethod('post')) {
+            //接受参数
             $id = $request->id;
-            $params = $request->only('nav_name', 'position', 'url', 'keyword', 'title', 'description', 'parent_id', 'nav_content');
+            $params = $request->only('nav_name', 'position', 'parent_id', 'type_id', 'keyword', 'title', 'description', 'url', 'nav_content');
 
-            $nav = Nav::where('id', $id)->update($params);
-
-            if ($nav) {
-                return ['success' => true];
-            }else{
-                return ['success' => false];
-            }
+            $nav = Nav::find($id)->update($params);
+            return response()->json($nav);
         }
+        //获取所有分类信息
+        $menu = Nav::where('parent_id', '0')->get();
+
+        //获取所有导航类型
+        $navType = NavType::all();
+
+        return view('Admin.nav.edit', ['menu' => $menu, 'info' => $info, 'navType' => $navType]);
     }
 
     public function del(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->id;
         $rs = Nav::find($id)->delete();
 
         if ($rs === false) {
+            return ['success' => false];
+        }else{
+            return ['success' => true];
+        }
+
+    }
+
+    public function batchUpdate(Request $request)
+    {
+        //接受参数
+        $ids = $request->ids;
+        $errors = [];
+
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $order_id = 'order_id' . $id;
+                $order_id = $request->input($order_id);
+                $rs = Nav::find($id)->update(['order_id' => $order_id]);
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
+            }
+        }
+
+        if (!empty($errors)) {
             return ['success' => false];
         }else{
             return ['success' => true];
@@ -119,13 +117,16 @@ class NavController extends CommonController
 
     public function batchDel(Request $request)
     {
+        //接受参数
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $rs = Nav::find($id)->delete();
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $rs = Nav::find($id)->delete();
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 

@@ -30,24 +30,23 @@
 <div class="page-container">
     <form action="/admin/nav/list" method="get">
         <div class="text-c"> 所属分类：
-            <select class="select-news" name="parentId" id="parentId">
+            <select class="select-news" name="parent_id" id="parent_id">
                 <option value="0">--请选择--</option>
                 @foreach($menu as $v)
-                <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
+                    <option value="{{ $v['id'] }}" @if(isset($parent_id) && $v['id'] == $parent_id) selected @endif>{{ $v['nav_name'] }}</option>
                 @endforeach
             </select>
-            <input type="text" class="input-text" style="width:250px" placeholder="输入导航名称" id="keyword" name="keyword">
-            <button type="submit" class="btn btn-success" id="" name="" onclick="search()"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+            <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif)>
+            <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
         </div>
     </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="admin_add('添加导航','/admin/nav/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加导航</a>
-            <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe60c;</i> 批量更新</a>
+            <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
             <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
-        <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span>
-    </div>
+        <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
     <form action="amdin/nav/list" method="post">
         <table class="table table-border table-bordered table-bg" id="list">
             <thead>
@@ -56,7 +55,6 @@
             </tr>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="40">ID</th>
                 <th width="150">导航名称</th>
                 <th width="150">所属分类</th>
                 <th width="90">url</th>
@@ -66,15 +64,14 @@
             </thead>
             <tbody id="list-item">
             @foreach($data as $v)
-            <tr class="text-c">
-                <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-                <td>{{ $v->id }}</td>
-                <td>{{ $v->nav_name }}</td>
-                <td>@if(!empty($v->parent->nav_name)) {{ $v->parent->nav_name }} @else 顶级分类 @endif</td>
-                <td>{{ $v->url }}</td>
-                <td>@if($v->position == 0)头尾@elseif($v->position == 1)头部@elseif($v->position == 2)尾部@endif</td>
-                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-            </tr>
+                <tr class="text-c">
+                    <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
+                    <td>{{ $v->nav_name }}</td>
+                    <td>@if(!empty($v->parent->nav_name)) {{ $v->parent->nav_name }} @else 顶级分类 @endif</td>
+                    <td>{{ $v->url }}</td>
+                    <td>@if($v->position == 0) 头尾 @elseif($v->position == 1) 头部 @else 尾部 @endif </td>
+                    <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                </tr>
             @endforeach
             </tbody>
         </table>
@@ -116,10 +113,9 @@
                 },
                 dataType: 'json',
                 success: function(data){
-                    $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});
 
-                    function flushPage(){
+                    function flushPage() {
                         window.location.reload();
                     }
                     setTimeout(flushPage,1000)
@@ -135,87 +131,41 @@
     function admin_edit(title,url,id,w,h){
         layer_show(title,url + '/' + id,w,h);
     }
-    /*导航-停用*/
-    /*function admin_stop(obj,id){
-        layer.confirm('确认要停用吗？',function(index){
-            //此处请求后台程序，下方是成功后的前台处理……
 
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-            $(obj).remove();
-            layer.msg('已停用!',{icon: 5,time:1000});
-        });
-    }
-
-    导航-启用*/
-    /*function admin_start(obj,id){
-        layer.confirm('确认要启用吗？',function(index){
-            //此处请求后台程序，下方是成功后的前台处理……
-
-
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-            $(obj).remove();
-            layer.msg('已启用!', {icon: 6,time:1000});
-        });
-    }*/
-
-    /*搜索事件*/
-    function search() {
-        var parentId = $('#parentId') . val();
-        var keyword = $('#keyword') . val();
-        $.ajax({
-            type: 'get',
-            url: '/admin/nav/index',
-            data: {
-                parentId: parentId,
-                keyword: keyword,
-                _token: "{{ csrf_token() }}"
-            },
-            dataType: 'json',
-            success: function(info){
-                //console.log(info);
-                $('#list-item') . empty();
-                $('#statistics') . empty();
-                var data = info.data;
-                var total = info.paginate;
-                $('#statistics') . append(total);
-
-                var str = '';
-
-                str += '<tr class="text-c">' +
-                    '<td><input type="checkbox" value="' + data.id + '" name="ids"></td>' +
-                    '<td>' + data.id + '</td>' +
-                    '<td>' + data.nav_name + '</td>' +
-                    '<td>顶级分类</td>' +
-                    '<td>' + data.url + '</td>' +
-                    '<td>'+ data.position +'</td>' +
-                    '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
-                    '</tr>';
-
-                for(var i = 0; i < data.children.length; i++) {
-                    if (data.children[i].position === 0) {
-                        data.children[i].position = '头尾';
-                    }else if(data.children[i].position === 1) {
-                        data.children[i].position = '头部';
-                    }else if(data.children[i].position == 2) {
-                        data.children[i].position = '尾部';
-                    }
-                    str += '<tr class="text-c">' +
-                        '<td><input type="checkbox" value="' + data.children[i].id + '" name="ids"></td>' +
-                        '<td>' + data.children[i].id + '</td>' +
-                        '<td>' + data.children[i].nav_name + '</td>' +
-                        '<td>' + data.nav_name + '</td>' +
-                        '<td>' + data.children[i].url + '</td>' +
-                        '<td>'+ data.children[i].position +'</td>' +
-                        '<td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit(\'导航编辑\',\'/admin/nav/edit\','+ data.children[i].id +',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'+ data.children[i].id +')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>' +
-                    '</tr>';
+    /*批量更新*/
+    function batchUpdate() {
+        layer.confirm('确认要更新吗？',function(index) {
+            var ids = [];
+            $("input[name='ids']").each(function (index, value) {
+                if (this.checked) {
+                    ids.push(this.value);
                 }
-                $('#list-item') .append(str);
-            },
-            error:function(info) {
-                console.log(info);
-            },
+            });
+
+            //console.log(a);
+            $.ajax({
+                type: 'POST',
+                url: '/admin/nav/batchUpdate',
+                data: {
+                    ids: ids,
+                    @foreach($data as $v)
+                    order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
+                    @endforeach
+                    _token: "{{ csrf_token() }}"
+                },
+                dataType: 'json',
+                success: function (data) {
+                    layer.msg('已更新!',{icon:1,time:1000});
+
+                    function flushPage(){
+                        window.location.reload();
+                    }
+                    setTimeout(flushPage,1000)
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
         });
     }
 

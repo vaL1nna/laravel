@@ -121,7 +121,7 @@
             },
             messages:{
                 menu_id:{
-                    min:"所属分类必填"
+                    min:"所属分类必须选择"
                 }
             },
             focusCleanup:false,

@@ -33,17 +33,18 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 位置：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>位置：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="position" size="1">
 				<option value="0">--头尾--</option>
 				<option value="1">--头部--</option>
 				<option value="2">--尾部--</option>
+
 			</select>
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 所属分类：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属分类：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="parent_id" size="1">
 				<option value="0">--顶级分类--</option>
@@ -54,11 +55,11 @@
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span> 导航类型：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>导航类型：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="type_id" size="1">
 				<option value="0">--请选择--</option>
-                @foreach($type as $v)
+                @foreach($navType as $v)
                     <option value="{{ $v['id'] }}">{{ $v['type_name'] }}</option>
                 @endforeach
 			</select>
@@ -123,30 +124,29 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-
         $("#form-admin-add").validate({
             rules:{
                 nav_name:{
                     required:true,
                     minlength:1,
-                    maxlength:8
+                    maxlength:16
                 },
-                position:{
-                    required:true,
-                },
-                parent_id:{
-                    required:true,
-                },
-                type_id: {
+                menu_id:{
                     required:true,
                     min: 1,
-                }
-            },
-            messages: {
-                type_id: {
-                    required: '请选择导航类型',
-                    min: '导航类型必须选择'
                 },
+                type_id:{
+                    required:true,
+                    min: 1,
+                },
+            },
+            messages:{
+                menu_id:{
+                    min:"所属分类必须选择"
+                },
+                type_id:{
+                    min:"导航类型必须选择"
+                }
             },
             focusCleanup:false,
             success:"valid",
@@ -156,20 +156,24 @@
                     url: "/admin/nav/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000});
-
-                        function closeModul() {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
+                        if (data.error !== undefined) {
+                            layer.msg(data.error, {icon:1,time:1000});
+                        }else{
+                            layer.msg('添加成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
                         }
-                        setTimeout(closeModul,500)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
+
                 /*var index = parent.layer.getFrameIndex(window.name);
                 parent.$('.btn-refresh').click();
                 parent.layer.close(index);*/
@@ -177,5 +181,6 @@
         });
     });
 </script>
+<!--/请在上方写此页面业务相关的脚本-->
 </body>
 </html>

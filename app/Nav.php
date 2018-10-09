@@ -19,6 +19,7 @@ class Nav extends Model
         'type_id',
         'nav_name',
         'nav_content',
+        'nav_image',
         'position',
         'keyword',
         'title',

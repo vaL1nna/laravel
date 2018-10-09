@@ -92,7 +92,10 @@ class ManagerController extends CommonController
                 }
             }
 
-            Manager::create($params);
+            $manager = Manager::create($params);
+            if($manager) {
+                return response()->json($manager);
+            }
         }
 
         return view('Admin.manager.add');

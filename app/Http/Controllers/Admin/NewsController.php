@@ -45,7 +45,10 @@ class NewsController extends CommonController
 
             $data = News::create($params);
             $data->order_id = $data->id;
-            $data->save();
+            $result = $data->save();
+            if ($result) {
+                return response()->json($result);
+            }
         }
         //获取所有分类信息
         $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
