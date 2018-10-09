@@ -122,7 +122,8 @@ class ProductController extends CommonController
                 $params['product_file'] = $info['product_file'];
             }
 
-            Product::find($id)->update($params);
+            $product = Product::find($id)->update($params);
+            return response()->json($product);
         }
 
         //获取所有分类信息

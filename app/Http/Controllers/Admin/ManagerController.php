@@ -79,8 +79,8 @@ class ManagerController extends CommonController
         if ($request->isMethod('post')){
             //接受参数
             $params = $request->only('username', 'password', 'mg_role_ids', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
-            if ($request->hasFile('mg_pic')) {
-                $image = $request->file('mg_pic');
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
                 if ($image->isValid()) {
                     $ext = $image->getClientOriginalExtension();
                     $fileTypes = array('gif','png','jpg','jpeg');
@@ -88,7 +88,7 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['mg_pic'] = str_replace('public', '/storage', $path);
+                    $params['file'] = str_replace('public', '/storage', $path);
                 }
             }
 
@@ -109,10 +109,10 @@ class ManagerController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('username', 'password', 'mg_role_ids', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
+            $params = $request->only('username', 'mg_role_ids', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
 
-            if ($request->hasFile('mg_pic')) {
-                $image = $request->file('mg_pic');
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
                 if ($image->isValid()) {
                     $ext = $image->getClientOriginalExtension();
                     $fileTypes = array('gif','png','jpg','jpeg');
@@ -120,13 +120,14 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['mg_pic'] = str_replace('public', '/storage', $path);
+                    $params['file'] = str_replace('public', '/storage', $path);
                 }
             }else{
-                $params['mg_pic'] = $info['mg_pic'];
+                $params['file'] = $info['file'];
             }
 
-            Manager::find($id)->update($params);
+            $manager = Manager::find($id)->update($params);
+            return response()->json($manager);
         }
 
         return view('Admin.manager.edit', ['info' => $info]);

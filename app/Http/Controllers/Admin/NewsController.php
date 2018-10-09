@@ -62,14 +62,14 @@ class NewsController extends CommonController
             $id = $request->id;
             $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
 
-            News::find($id)->update($params);
+            $news = News::find($id)->update($params);
+            return response()->json($news);
         }
         $id = $request->id;
         $info = News::find($id);
 
         //获取所有分类信息
         $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
-
 
         return view('Admin.news.edit', ['menu' => $menu, 'info' => $info]);
     }
