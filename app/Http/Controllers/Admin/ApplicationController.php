@@ -14,7 +14,7 @@ class ApplicationController extends Controller
         $keyword = $request->keyword;
 
         //获取数据
-        $data = Nav::where('parent_id' != '0')->where('type_id', '3');
+        $data = Nav::where('parent_id', '!=',  '0')->where('type_id', '3');
 
         if (isset($keyword)) {
             $data = $data->where(function ($query) use ($keyword){
