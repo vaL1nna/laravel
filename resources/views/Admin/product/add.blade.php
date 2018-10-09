@@ -199,7 +199,7 @@
             radioClass: 'iradio-blue',
             increaseArea: '20%'
         });
-            $("#form-admin-add").validate({
+        $("#form-admin-add").validate({
             rules:{
                 product_name:{
                     required:true,
@@ -224,14 +224,18 @@
                     url: "/admin/product/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000});
-                        function closeModul() {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
+                        if (data.error !== null) {
+                            layer.msg(data.error, {icon:1,time:1000});
+                        }else{
+                            layer.msg('添加成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
                         }
-                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

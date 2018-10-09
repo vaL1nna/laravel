@@ -207,23 +207,6 @@
             increaseArea: '20%'
         });
 
-        //验证文件类型
-        $.validator.addMethod("checkPic", function(value, element) {
-            var filepath=$("#uploadfile-1").val();
-            //获得上传文件名
-            var fileArr=filepath.split("\\");
-            var fileTArr=fileArr[fileArr.length-1].toLowerCase().split(".");
-            var filetype=fileTArr[fileTArr.length-1];
-
-            //切割出后缀文件名
-            if(filetype != "jpg"){
-                return false;
-            }else{
-                return true;
-            }
-
-        }, "上传图片格式不适合");
-
         $("#form-admin-add").validate({
             rules:{
                 product_name:{
@@ -249,14 +232,18 @@
                     url: "/admin/product/edit" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('更新成功!',{icon:1,time:1000});
-                        function closeModul() {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
+                        if (data.error !== null) {
+                            layer.msg(data.error, {icon:1,time:1000});
+                        }else{
+                            layer.msg('更新成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
                         }
-                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

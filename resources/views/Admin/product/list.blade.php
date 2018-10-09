@@ -30,13 +30,13 @@
 <div class="page-container">
     <form action="/admin/product/list" method="get">
         <div class="text-c"> 所属分类：
-            <select class="select-news" name="parentId" id="parentId">
+            <select class="select-news" name="menu_id" id="menu_id">
                 <option value="0">--请选择--</option>
                 @foreach($menu as $v)
-                <option value="{{ $v['id'] }}">{{ $v['nav_name'] }}</option>
+                <option value="{{ $v['id'] }}" @if(isset($menu_id) && $v['id'] == $menu_id) selected @endif>{{ $v['nav_name'] }}</option>
                 @endforeach
             </select>
-            <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword">
+            <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif)>
             <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
         </div>
     </form>
