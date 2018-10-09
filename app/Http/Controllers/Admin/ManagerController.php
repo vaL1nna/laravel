@@ -78,9 +78,9 @@ class ManagerController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('menu_id', 'order_id', 'manager_name', 'manager_content', 'keyword', 'title', 'description', 'url', 'is_show', 'manager_attribute1', 'manager_attribute2', 'manager_attribute3', 'manager_attribute4', 'manager_attribute5', 'manager_attribute6', 'manager_attribute7', 'manager_attribute8', 'manager_attribute9', 'manager_attribute10');
-            if ($request->hasFile('manager_image')) {
-                $image = $request->file('manager_image');
+            $params = $request->only('username', 'password', 'mg_role_ids', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
+            if ($request->hasFile('mg_pic')) {
+                $image = $request->file('mg_pic');
                 if ($image->isValid()) {
                     $ext = $image->getClientOriginalExtension();
                     $fileTypes = array('gif','png','jpg','jpeg');
@@ -88,32 +88,14 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['manager_image'] = str_replace('public', '/storage', $path);
+                    $params['mg_pic'] = str_replace('public', '/storage', $path);
                 }
             }
 
-            if ($request->hasFile('manager_file')) {
-                $file = $request->file('manager_file');
-                if ($file->isValid()) {
-                    /*$fileName = $file->getClientOriginalName();
-                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
-                    $ext = $file->getClientOriginalExtension();
-                    if ($ext != 'pdf') {
-                        return response()->json(['error' => '上传的pdf格式不正确']);
-                    }
-                    $path = $file->store('public');
-                    $params['manager_file'] = str_replace('public', '/storage', $path);
-                }
-            }
-
-            $data = Manager::create($params);
-            $data->order_id = $data->id;
-            $data->save();
+            Manager::create($params);
         }
-        //获取所有分类信息
-        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
 
-        return view('Admin.manager.add', ['menu' => $menu]);
+        return view('Admin.manager.add');
 
 
     }
@@ -127,10 +109,10 @@ class ManagerController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('menu_id', 'order_id', 'manager_name', 'manager_content', 'keyword', 'title', 'description', 'url', 'manager_image', 'manager_file', 'is_show', 'manager_attribute1', 'manager_attribute2', 'manager_attribute3', 'manager_attribute4', 'manager_attribute5', 'manager_attribute6', 'manager_attribute7', 'manager_attribute8', 'manager_attribute9', 'manager_attribute10');
+            $params = $request->only('username', 'password', 'mg_role_ids', 'mg_sex', 'mg_phone', 'mg_email', 'mg_remark');
 
-            if ($request->hasFile('manager_image')) {
-                $image = $request->file('manager_image');
+            if ($request->hasFile('mg_pic')) {
+                $image = $request->file('mg_pic');
                 if ($image->isValid()) {
                     $ext = $image->getClientOriginalExtension();
                     $fileTypes = array('gif','png','jpg','jpeg');
@@ -138,36 +120,16 @@ class ManagerController extends CommonController
                         return response()->json(['error' => '图片格式不正确']);
                     }
                     $path = $image->store('public');
-                    $params['manager_image'] = str_replace('public', '/storage', $path);
+                    $params['mg_pic'] = str_replace('public', '/storage', $path);
                 }
             }else{
-                $params['manager_image'] = $info['manager_image'];
-            }
-
-            if ($request->hasFile('manager_file')) {
-                $file = $request->file('manager_file');
-                if ($file->isValid()) {
-                    /*$fileName = $file->getClientOriginalName();
-                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
-                    $ext = $file->getClientOriginalExtension();
-                    if ($ext != 'pdf') {
-                        return response()->json(['error' => '上传的pdf格式不正确']);
-                    }
-                    $path = $file->store('public');
-                    $params['manager_file'] = str_replace('public', '/storage', $path);
-                }
-            }else{
-                $params['manager_file'] = $info['manager_file'];
+                $params['mg_pic'] = $info['mg_pic'];
             }
 
             Manager::find($id)->update($params);
         }
 
-        //获取所有分类信息
-        $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
-
-
-        return view('Admin.manager.edit', ['menu' => $menu, 'info' => $info]);
+        return view('Admin.manager.edit', ['info' => $info]);
     }
 
     //管理员删除
