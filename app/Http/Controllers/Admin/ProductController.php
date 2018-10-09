@@ -41,7 +41,33 @@ class ProductController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'product_image', 'product_file', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10');
+            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10');
+            if ($request->hasFile('product_image')) {
+                $image = $request->file('product_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['product_image'] = str_replace('public', '/storage', $path);
+                }
+            }
+
+            if ($request->hasFile('product_file')) {
+                $file = $request->file('product_file');
+                if ($file->isValid()) {
+                    /*$fileName = $file->getClientOriginalName();
+                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
+                    $ext = $file->getClientOriginalExtension();
+                    if ($ext != 'pdf') {
+                        return response()->json(['error' => '上传的pdf格式不正确']);
+                    }
+                    $path = $file->store('public');
+                    $params['product_file'] = str_replace('public', '/storage', $path);
+                }
+            }
 
             $data = Product::create($params);
             $data->order_id = $data->id;
@@ -57,15 +83,47 @@ class ProductController extends CommonController
 
     public function edit(Request $request)
     {
+        $id = $request->id;
+        $info = Product::find($id);
+
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
             $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'product_image', 'product_file', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10');
 
+            if ($request->hasFile('product_image')) {
+                $image = $request->file('product_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['product_image'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['product_image'] = $info['product_image'];
+            }
+
+            if ($request->hasFile('product_file')) {
+                $file = $request->file('product_file');
+                if ($file->isValid()) {
+                    /*$fileName = $file->getClientOriginalName();
+                    $fileName = explode('.', $fileName)[0] . '_' . date('ymd');*/
+                    $ext = $file->getClientOriginalExtension();
+                    if ($ext != 'pdf') {
+                        return response()->json(['error' => '上传的pdf格式不正确']);
+                    }
+                    $path = $file->store('public');
+                    $params['product_file'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['product_file'] = $info['product_file'];
+            }
+
             Product::find($id)->update($params);
         }
-        $id = $request->id;
-        $info = Product::find($id);
 
         //获取所有分类信息
         $menu = Nav::where('type_id', '2')->where('parent_id', '!=', '0')->orderBy('order_id')->get();
@@ -93,12 +151,14 @@ class ProductController extends CommonController
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $order_id = 'order_id' . $id;
-            $order_id = $request->input($order_id);
-            $rs = Product::find($id)->update(['order_id' => $order_id]);
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $order_id = 'order_id' . $id;
+                $order_id = $request->input($order_id);
+                $rs = Product::find($id)->update(['order_id' => $order_id]);
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 
@@ -115,10 +175,12 @@ class ProductController extends CommonController
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $rs = Product::find($id)->delete();
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $rs = Product::find($id)->delete();
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 

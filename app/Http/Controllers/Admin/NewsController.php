@@ -93,12 +93,14 @@ class NewsController extends CommonController
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $order_id = 'order_id' . $id;
-            $order_id = $request->input($order_id);
-            $rs = News::find($id)->update(['order_id' => $order_id]);
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $order_id = 'order_id' . $id;
+                $order_id = $request->input($order_id);
+                $rs = News::find($id)->update(['order_id' => $order_id]);
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 
@@ -115,10 +117,12 @@ class NewsController extends CommonController
         $ids = $request->ids;
         $errors = [];
 
-        foreach ($ids as $id) {
-            $rs = News::find($id)->delete();
-            if ($rs === false) {
-                $errors[] = $id;
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                $rs = News::find($id)->delete();
+                if ($rs === false) {
+                    $errors[] = $id;
+                }
             }
         }
 
