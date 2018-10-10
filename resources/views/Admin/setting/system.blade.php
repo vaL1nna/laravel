@@ -30,20 +30,20 @@
 <div class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司名称：</label>
+            <label class="form-label col-xs-4 col-sm-3">公司名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_name" name="web_name" value="{{$info->web_name}}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>LOGO：</label>
+            <label class="form-label col-xs-4 col-sm-3"> LOGO：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
                     <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="web_logo" readonly>
                     <a href=" " class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
-                <input type="file" multiple name="file" class="input-file">
+                <input type="file" multiple name="web_logo" class="input-file">
                 </span>
                 @if(!empty($info->web_logo))
                     <img src="{{ $info->web_logo }}" alt="没有头像" width="100px">
@@ -51,50 +51,55 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>联系电话：</label>
+            <label class="form-label col-xs-4 col-sm-3">联系人：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_contacts" name="web_contacts" value="{{ $info->web_contacts }}">
             </div>
         </div>
-
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>联系电话：</label>
+            <label class="form-label col-xs-4 col-sm-3">联系手机：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" id="web_phone" name="web_phone" value="{{ $info->web_phone}}">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">联系电话：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_tel" name="web_tel" value="{{ $info->web_tel }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+            <label class="form-label col-xs-4 col-sm-3">邮箱：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->web_email }}" name="web_email" id="web_email">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>传真：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 传真：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_fax" name="web_fax" value="{{ $info->web_fax }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>地址：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 地址：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_addr" name="web_addr" value="{{ $info->web_addr }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>备案号：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 备案号：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_icp" name="web_icp" value="{{ $info->web_icp }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>分享代码：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 分享代码：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="web_share" cols="" rows="" class="textarea" dragonfly="true">{{ $info->web_share }}</textarea>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>版权信息：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 版权信息：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_copyright" name="web_copyright" value="{{ $info->web_copyright }}">
             </div>
