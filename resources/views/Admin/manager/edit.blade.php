@@ -75,7 +75,7 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="mg_remark" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true">{{ $info->mg_remark }}</textarea>
+                <textarea name="mg_remark" cols="" rows="" class="textarea" dragonfly="true">{{ $info->mg_remark }}</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p >
             </div>
         </div>

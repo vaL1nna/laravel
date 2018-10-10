@@ -124,8 +124,8 @@
             <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
-                    <li><a data-href="" data-title="客服设置" href="javascript:void(0)">客服设置</a></li>
+                    <li><a data-href="/admin/setting/system" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
+                    <li><a data-href="/admin/setting/service" data-title="客服设置" href="javascript:void(0)">客服设置</a></li>
                 </ul>
             </dd>
         </dl>
