@@ -39,7 +39,7 @@
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>LOGO：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="web_logo" readonly>
                     <a href=" " class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
@@ -113,9 +113,9 @@
 <script type="text/javascript" src="/admin/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="/admin/lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/admin/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
     $(function(){
         $('.skin-minimal input').iCheck({
@@ -125,35 +125,11 @@
         });
 
         $("#form-admin-add").validate({
-            rules:{
-                web_name:{
-                    required:true,
-                },
-                uploadfile-1:{
-                    required: true,
-                },
-                mg_email:{
-                    required: true,
-                    email: true,
-                },
-                mg_phone:{
-                    required:true
-                    isPhone:true
-                },
-                mg_fax:{
-                    required:true,
-                },
-                mg_address:{
-                    required:true,
-                }
-            },
-
-            focusCleanup:false,
             success:"valid",
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/admin/manager/edit" ,
+                    url: "/admin/setting/system" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         if (data.error !== undefined) {
@@ -161,10 +137,7 @@
                         }else{
                             layer.msg('更新成功!',{icon:1,time:1000});
                             function closeModul() {
-                                parent.location.reload();
-                                var index = parent.layer.getFrameIndex(window.name);
-                                parent.$('.btn-refresh').click();
-                                parent.layer.close(index);
+                                window.location.reload();
                             }
                             setTimeout(closeModul,1000)
                         }
