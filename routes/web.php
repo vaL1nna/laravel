@@ -90,8 +90,8 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
 
     //系统设置模块
     Route::group(['prefix' => 'setting'], function (){
-        Route::match(['get, post'], 'system', 'SettingController@system');
-        Route::match(['get, post'], 'service', 'SettingController@service');
+        Route::match(['get', 'post'], 'system', 'SettingController@system');
+        Route::match(['get', 'post'], 'service', 'SettingController@service');
     });
 });
 
