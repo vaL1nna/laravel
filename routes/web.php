@@ -87,6 +87,12 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::post('batchUpdate', 'AboutUsController@batchUpdate');
         Route::post('batchDel', 'AboutUsController@batchDel');
     });
+
+    //系统设置模块
+    Route::group(['prefix' => 'setting'], function (){
+        Route::match(['get, post'], 'system', 'SettingController@system');
+        Route::match(['get, post'], 'service', 'SettingController@service');
+    });
 });
 
 //前台模块
