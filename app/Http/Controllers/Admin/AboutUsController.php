@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Nav;
 use Illuminate\Http\Request;
+
 
 class AboutUsController extends CommonController
 {

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Nav;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
-class ApplicationController extends Controller
+class ApplicationController extends CommonController
 {
     public function list(Request $request)
     {
