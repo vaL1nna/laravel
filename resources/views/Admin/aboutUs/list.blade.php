@@ -23,55 +23,49 @@
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>导航列表</title>
+    <title>关于我们</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 导航管理 <span class="c-gray en">&gt;</span> 导航列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 关于我们管理 <span class="c-gray en">&gt;</span> 关于我们列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-    <form action="/admin/nav/list" method="get">
-        <div class="text-c"> 所属分类：
-            <select class="select-news" name="parent_id" id="parent_id">
-                <option value="0">--请选择--</option>
-                @foreach($menu as $v)
-                    <option value="{{ $v['id'] }}" @if(isset($parent_id) && $v['id'] == $parent_id) selected @endif>{{ $v['nav_name'] }}</option>
-                @endforeach
-            </select>
+    <form action="/admin/aboutUs/list" method="get">
+        <div class="text-c">
             <input type="text" class="input-text" style="width:250px" id="keyword" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif>
             <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
         </div>
     </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="admin_add('添加导航','/admin/nav/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加导航</a>
+            <a href="javascript:;" onclick="admin_add('添加关于我们','/admin/aboutUs/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加关于我们</a>
             <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
             <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
-    <form action="amdin/nav/list" method="post">
+    <form action="amdin/aboutUs/list" method="post">
         <table class="table table-border table-bordered table-bg" id="list">
             <thead>
             <tr>
-                <th scope="col" colspan="9">导航列表</th>
+                <th scope="col" colspan="9">关于我们列表</th>
             </tr>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="150">导航名称</th>
-                <th width="150">所属分类</th>
-                <th width="90">url</th>
-                <th width="150">所在位置</th>
+                <th width="30">排序</th>
+                <th width="100">关于我们名称</th>
+                <th width="100">所属分类</th>
+                <th width="100">所在位置</th>
                 <th width="100">操作</th>
             </tr>
             </thead>
             <tbody id="list-item">
             @foreach($data as $v)
-                <tr class="text-c">
-                    <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-                    <td>{{ $v->nav_name }}</td>
-                    <td>@if(!empty($v->parent->nav_name)) {{ $v->parent->nav_name }} @else 顶级分类 @endif</td>
-                    <td>{{ $v->url }}</td>
-                    <td>@if($v->position == 0) 头尾 @elseif($v->position == 1) 头部 @else 尾部 @endif </td>
-                    <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('导航编辑','/admin/nav/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-                </tr>
+            <tr class="text-c">
+                <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
+                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}" id="order_id{{ $v->id }}"/> </td>
+                <td>{{ $v->nav_name }}</td>
+                <td>{{ $v->parent->nav_name }}</td>
+                <td>@if($v->position == 0) 头尾 @elseif($v->position == 1) 头部 @else 尾部 @endif </td>
+                <td class="td-manage">{{--<a style="text-decoration:none" onClick="admin_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> --}}<a title="编辑" href="javascript:;" onclick="admin_edit('关于我们编辑','/admin/aboutUs/edit','{{ $v->id }}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" href="javascript:;" onclick="admin_del(this,'{{ $v->id }}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+            </tr>
             @endforeach
             </tbody>
         </table>
@@ -106,13 +100,14 @@
         layer.confirm('确认要删除吗？',function(index){
             $.ajax({
                 type: 'POST',
-                url: '/admin/nav/del',
+                url: '/admin/aboutUs/del',
                 data: {
                     id: id,
                     _token: "{{ csrf_token() }}"
                 },
                 dataType: 'json',
                 success: function(data){
+                    $(obj).parents("tr").remove();
                     layer.msg('已删除!',{icon:1,time:1000});
 
                     function flushPage() {
@@ -145,11 +140,11 @@
             //console.log(a);
             $.ajax({
                 type: 'POST',
-                url: '/admin/nav/batchUpdate',
+                url: '/admin/aboutUs/batchUpdate',
                 data: {
                     ids: ids,
                     @foreach($data as $v)
-                    order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
+                        order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
                     @endforeach
                     _token: "{{ csrf_token() }}"
                 },
@@ -182,7 +177,7 @@
             //console.log(a);
             $.ajax({
                 type: 'POST',
-                url: '/admin/nav/batchDel',
+                url: '/admin/aboutUs/batchDel',
                 data: {
                     ids: ids,
                     _token: "{{ csrf_token() }}"
