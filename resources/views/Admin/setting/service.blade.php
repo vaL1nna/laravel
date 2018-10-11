@@ -37,7 +37,7 @@
                     <label for="sex-1">是</label>
                 </div>
                 <div class="radio-box">
-                    <input name="is_online" value="0" type="radio" id="" @if($info['mg_sex'] == '0') checked @endif>
+                    <input name="is_online" value="0" type="radio" id="" @if($info['is_online'] == '0') checked @endif>
                     <label for="sex-2">否</label>
                 </div>
             </div>

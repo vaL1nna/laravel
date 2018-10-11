@@ -40,8 +40,8 @@ class Request extends BaseRequest
     protected function failedValidation(Validator $validator){
         $arr = ["success" => false];
         $msg = array_first($validator->errors()->toArray())[0];
-        $arr["err_msg"] = $msg;
         $arr["err_code"] = "1000";
+        $arr["err_msg"] = $msg;
         $arr["data"] = null;
         throw new HttpResponseException(response()->json($arr, 200));
     }

@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('register', function () {
     return view('welcome');
 })->name('register');
 
@@ -96,9 +96,9 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
 });
 
 //前台模块
-Route::group(['namespace' => 'Home', 'prefix' => 'nav'], function (){
-    Route::get('header', 'NavController@header');
-    Route::get('footer', 'NavController@footer');
+Route::group(['namespace' => 'Home'], function (){
+    Route::get('index', 'IndexController@index');
+    Route::get('index', 'IndexController@index');
 });
 
 
