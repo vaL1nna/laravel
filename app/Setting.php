@@ -37,4 +37,9 @@ class Setting extends Model
         'description',
         'url',
     ];
+
+    public function banner()
+    {
+        return $this->hasMany('App\Banner', 'system_id', 'id');
+    }
 }
