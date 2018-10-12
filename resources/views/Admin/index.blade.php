@@ -104,6 +104,14 @@
                 </ul>
             </dd>
         </dl>
+        <dl id="menu-comments">
+            <dt><i class="Hui-iconfont">&#xe622;</i> 客户服务管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+            <dd>
+                <ul>
+                    <li><a data-href="/admin/service/list" data-title="客户服务管理" href="javascript:void(0)">客户服务列表</a></li>
+                </ul>
+            </dd>
+        </dl>
         <dl id="menu-member">
             <dt><i class="Hui-iconfont">&#xe60d;</i> 关于我们<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>

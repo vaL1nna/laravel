@@ -30,6 +30,7 @@ class Product extends Model
         'product_attribute8',
         'product_attribute9',
         'product_attribute10',
+        'product_attribute11',
         'keyword',
         'title',
         'description',

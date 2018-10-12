@@ -113,12 +113,16 @@
                 },
                 dataType: 'json',
                 success: function(data){
-                    layer.msg('已删除!',{icon:1,time:1000});
+                    if (data.error !== undefined){
+                        layer.msg(data.error,{icon:1,time:3000});
+                    }else{
+                        layer.msg('已删除!',{icon:1,time:1000});
 
-                    function flushPage() {
-                        window.location.reload();
+                        function flushPage() {
+                            window.location.reload();
+                        }
+                        setTimeout(flushPage,1000)
                     }
-                    setTimeout(flushPage,1000)
                 },
                 error:function(data) {
                     console.log(data.msg);
@@ -189,12 +193,16 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    layer.msg('已删除!',{icon:1,time:1000});
+                    if (data.error !== undefined) {
+                        layer.msg(data.error,{icon:1,time:3000});
+                    } else{
+                        layer.msg('已删除!',{icon:1,time:1000});
 
-                    function flushPage(){
-                        window.location.reload();
+                        function flushPage(){
+                            window.location.reload();
+                        }
+                        setTimeout(flushPage,1000)
                     }
-                    setTimeout(flushPage,1000)
                 },
                 error: function (data) {
                     console.log(data.msg);

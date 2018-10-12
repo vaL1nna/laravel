@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Nav;
 use App\NavType;
+use App\News;
+use App\Product;
 use Illuminate\Http\Request;
 
 class NavController extends CommonController
@@ -81,6 +83,41 @@ class NavController extends CommonController
     public function del(Request $request)
     {
         $id = $request->id;
+        $info = Nav::find($id);
+        $type_id = $info->type_id;
+        $parent_id = $info->parent_id;
+        if ($parent_id == 0){
+            //一级导航
+            $children = Nav::where('parent_id', $id);
+
+            if (!empty($children)) {
+                return response()->json(['error' => '一级导航下存在子分类，请先删除其子分类及其子分类下的数据！']);
+            }
+        }else{
+            //二级导航
+            switch ($type_id) {
+                //产品
+                case '2':
+                    $product = Product::where('menu_id', $id);
+                    if (!empty($product)) {
+                        return response()->json(['error' => '二级产品分类下存在产品信息，请先删除其下产品数据！']);
+                    }
+                    break;
+
+                //新闻
+                case '4':
+                    $product = News::where('menu_id', $id);
+                    if (!empty($product)) {
+                        return response()->json(['error' => '二级新闻分类下存在新闻信息，请先删除其下新闻数据！']);
+                    }
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+        }
+
         $rs = Nav::find($id)->delete();
 
         if ($rs === false) {
@@ -99,6 +136,7 @@ class NavController extends CommonController
 
         if (is_array($ids)) {
             foreach ($ids as $id) {
+
                 $order_id = 'order_id' . $id;
                 $order_id = $request->input($order_id);
                 $rs = Nav::find($id)->update(['order_id' => $order_id]);
@@ -123,6 +161,39 @@ class NavController extends CommonController
 
         if (is_array($ids)) {
             foreach ($ids as $id) {
+                $info = Nav::find($id);
+                $type_id = $info->type_id;
+                $parent_id = $info->parent_id;
+                if ($parent_id == 0){
+                    //一级导航
+                    $children = Nav::where('parent_id', $id);
+                    if (!empty($children)) {
+                        return response()->json(['error' => '一级导航下存在自分类，请先删除其子分类及其子分类下的数据！']);
+                    }
+                }else{
+                    //二级导航
+                    switch ($type_id) {
+                        //产品
+                        case '2':
+                            $product = Product::where('menu_id', $id);
+                            if (!empty($product)) {
+                                return response()->json(['error' => '二级产品分类下存在产品信息，请先删除其下产品数据！']);
+                            }
+                            break;
+
+                        //新闻
+                        case '4':
+                            $product = News::where('menu_id', $id);
+                            if (!empty($product)) {
+                                return response()->json(['error' => '二级新闻分类下存在新闻信息，请先删除其下新闻数据！']);
+                            }
+                            break;
+
+                        default:
+                            # code...
+                            break;
+                    }
+                }
                 $rs = Nav::find($id)->delete();
                 if ($rs === false) {
                     $errors[] = $id;

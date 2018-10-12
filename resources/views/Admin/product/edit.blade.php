@@ -87,63 +87,69 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性1：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Rated Inductance(uH)-L：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute1" name="product_attribute1" value="{{ $info->product_attribute1 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性2：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Tolerance：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute2" name="product_attribute2" value="{{ $info->product_attribute2 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性3：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Test Condition(MHz)-S.R.F：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute3" name="product_attribute3" value="{{ $info->product_attribute3 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性4：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>DC Test Condition Max.(mΩ)-DCR：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute4" name="product_attribute4" value="{{ $info->product_attribute4 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性5：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>DC Test Condition Typ.(mΩ)-DCR：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute5" name="product_attribute5" value="{{ $info->product_attribute5 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性6：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Rated Current Max.(A)-Isat：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute6" name="product_attribute6" value="{{ $info->product_attribute6 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性7：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Rated Current Typ.(A)-Isat：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute7" name="product_attribute7" value="{{ $info->product_attribute7 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性8：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Rated Current Max.(A)-Irms：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute8" name="product_attribute8" value="{{ $info->product_attribute8 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性9：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Rated Current Typ.(A)-Irms：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute9" name="product_attribute9" value="{{ $info->product_attribute9 }}">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>属性10：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Length*Width(mm)-L×W：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="product_attribute10" name="product_attribute10" value="{{ $info->product_attribute10 }}">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>Thickness(mm)-H：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" id="product_attribute11" name="product_attribute11" value="{{ $info->product_attribute11 }}">
             </div>
         </div>
         <div class="row cl">

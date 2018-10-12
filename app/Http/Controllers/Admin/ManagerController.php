@@ -28,7 +28,7 @@ class ManagerController extends CommonController
             $validator = Validator::make($request->all(), [
                 "username" => "required|string|min:1|max:5",
                 "password" => "required|between:4,20",
-                "captcha" => "required|size:2"
+                "captcha" => "required|captcha|size:2"
             ]);
             if ($validator->fails()) {
                 return redirect("/admin/login")->withErrors($validator)->withInput();
