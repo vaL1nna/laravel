@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Banner;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -65,5 +66,33 @@ class SettingController extends CommonController
         }
 
         return view('Admin.setting.service', ['info' => $info]);
+    }
+
+    public function banner(Request $request)
+    {
+        $info = Banner::where('setting_id', '1')->get();
+
+        if ($request->isMethod('post')) {
+
+            if ($request->hasFile('web_qrcode')) {
+                $image = $request->file('web_qrcode');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['web_qrcode'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['web_qrcode'] = $info['web_qrcode'];
+            }
+
+            $setting = Setting::find('1')->update($params);
+            return response()->json(['success' => $setting]);
+        }
+
+        return view('Admin.setting.banner', ['info' => $info]);
     }
 }

@@ -13,10 +13,8 @@ class IndexController extends Controller
     {
         //
         $header = Nav::with(['children'])->where('position', '0')->orWhere('position', '1')->get()->toArray();
-//TODO
-        $banner = '';
 
-        $setting = Setting::find('1');
+        $setting = Setting::with('banner')->find('1');
         if (!empty($setting)) {
             $setting = $setting->toArray();
         }
@@ -28,6 +26,6 @@ class IndexController extends Controller
         $news = News::select('id', 'news_name')->orderBy('order_id')->limit('10')->get()->toArray();
 
         $data = ['header' => $header, 'setting' => $setting, 'product' => $product, 'application' => $application, 'news' => $news];
-        return response()->json(['success' => 'true', 'err_code' => '', 'err_msg' => '', 'data' => $data]);
+        return response()->json(['success' => 'true', 'err_code' => '0', 'err_msg' => '', 'data' => $data]);
     }
 }

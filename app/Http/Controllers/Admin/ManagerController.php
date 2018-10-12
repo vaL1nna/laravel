@@ -140,6 +140,9 @@ class ManagerController extends CommonController
     public function del(Request $request)
     {
         $id = $request->id;
+        if ($id == 1) {
+            return response()->json(['error' => '超级管理员不能被删除！']);
+        }
         $rs = Manager::find($id)->delete();
 
         if ($rs === false) {
@@ -182,6 +185,9 @@ class ManagerController extends CommonController
         $ids = $request->ids;
         $errors = [];
 
+        if (in_array('1', $ids)) {
+            return response()->json(['error' => '超级管理员不能被删除！']);
+        }
         if (is_array($ids)) {
             foreach ($ids as $id) {
                 $rs = Manager::find($id)->delete();
