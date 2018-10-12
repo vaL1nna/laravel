@@ -54,7 +54,7 @@
                     <input type="file" multiple name="product_image" class="input-file">
                 </span>
                 @if(!empty($info->product_image))
-                    <img src="{{ $info->product_image }}" alt="没有头像" width="100px">
+                    <img src="{{ $info->product_image }}" alt="没有图片" width="100px">
                 @endif
             </div>
         </div>

@@ -88,11 +88,21 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::post('batchDel', 'AboutUsController@batchDel');
     });
 
+    //广告管理模块
+    Route::group(['prefix' => 'banner'], function (){
+        Route::get('list', 'BannerController@list');
+        Route::match(['get', 'post'], 'add', 'BannerController@add');
+        Route::get('edit/{id}', 'BannerController@edit');
+        Route::post('edit', 'BannerController@edit');
+        Route::post('del', 'BannerController@del');
+        Route::post('batchUpdate', 'BannerController@batchUpdate');
+        Route::post('batchDel', 'BannerController@batchDel');
+    });
+
     //系统设置模块
     Route::group(['prefix' => 'setting'], function (){
         Route::match(['get', 'post'], 'system', 'SettingController@system');
         Route::match(['get', 'post'], 'service', 'SettingController@service');
-        Route::match(['get', 'post'], 'banner', 'SettingController@banner');
     });
 });
 

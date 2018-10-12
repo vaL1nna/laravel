@@ -46,7 +46,7 @@ class AboutUsController extends CommonController
             $data->order_id = $data->id;
             $result = $data->save();
             if ($result) {
-                return response()->json($result);
+                return response()->json(['success' => $result]);
             }
         }
 
@@ -64,7 +64,7 @@ class AboutUsController extends CommonController
             $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'url', 'nav_content');
 
             $nav = Nav::find($id)->update($params);
-            return response()->json($nav);
+            return response()->json(['success' => $nav]);
         }
 
         return view('Admin.aboutUs.edit', ['info' => $info]);
@@ -76,9 +76,9 @@ class AboutUsController extends CommonController
         $rs = Nav::find($id)->delete();
 
         if ($rs === false) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
 
     }
@@ -101,9 +101,9 @@ class AboutUsController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 
@@ -123,9 +123,9 @@ class AboutUsController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 }

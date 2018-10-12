@@ -74,7 +74,7 @@ class ProductController extends CommonController
 
             $result = $data->save();
             if ($result) {
-                return response()->json($result);
+                return response()->json(['success' => $result]);
             }
         }
         //获取所有分类信息
@@ -127,7 +127,7 @@ class ProductController extends CommonController
             }
 
             $product = Product::find($id)->update($params);
-            return response()->json($product);
+            return response()->json(['success' => $product]);
         }
 
         //获取所有分类信息
@@ -143,9 +143,9 @@ class ProductController extends CommonController
         $rs = Product::find($id)->delete();
 
         if ($rs === false) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
 
     }
@@ -168,9 +168,9 @@ class ProductController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 
@@ -190,9 +190,9 @@ class ProductController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 }

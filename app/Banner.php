@@ -14,7 +14,9 @@ class Banner extends Model
 
     protected $fillable = [
         'setting_id',
+        'name',
         'image',
-        'description',
+        'url',
+        'is_show',
     ];
 }

@@ -45,7 +45,7 @@ class NavController extends CommonController
 
             $data = Nav::create($params);
             if ($data) {
-                return response()->json($data);
+                return response()->json(['success' => $data]);
             }
         }
         //获取所有分类信息
@@ -67,7 +67,7 @@ class NavController extends CommonController
             $params = $request->only('nav_name', 'position', 'parent_id', 'type_id', 'keyword', 'title', 'description', 'url', 'nav_content');
 
             $nav = Nav::find($id)->update($params);
-            return response()->json($nav);
+            return response()->json(['success' => $nav]);
         }
         //获取所有分类信息
         $menu = Nav::where('parent_id', '0')->get();
@@ -84,9 +84,9 @@ class NavController extends CommonController
         $rs = Nav::find($id)->delete();
 
         if ($rs === false) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
 
     }
@@ -109,9 +109,9 @@ class NavController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 
@@ -131,9 +131,9 @@ class NavController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 }

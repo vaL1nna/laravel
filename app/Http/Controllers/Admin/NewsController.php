@@ -47,7 +47,7 @@ class NewsController extends CommonController
             $data->order_id = $data->id;
             $result = $data->save();
             if ($result) {
-                return response()->json($result);
+                return response()->json(['success' => $result]);
             }
         }
         //获取所有分类信息
@@ -66,7 +66,7 @@ class NewsController extends CommonController
             $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
 
             $news = News::find($id)->update($params);
-            return response()->json($news);
+            return response()->json(['success' => $news]);
         }
         $id = $request->id;
         $info = News::find($id);
@@ -83,9 +83,9 @@ class NewsController extends CommonController
         $rs = News::find($id)->delete();
 
         if ($rs === false) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
 
     }
@@ -108,9 +108,9 @@ class NewsController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 
@@ -130,9 +130,9 @@ class NewsController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 }

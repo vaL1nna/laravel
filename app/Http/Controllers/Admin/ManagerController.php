@@ -94,7 +94,7 @@ class ManagerController extends CommonController
 
             $manager = Manager::create($params);
             if($manager) {
-                return response()->json($manager);
+                return response()->json(['success' => $manager]);
             }
         }
 
@@ -130,7 +130,7 @@ class ManagerController extends CommonController
             }
 
             $manager = Manager::find($id)->update($params);
-            return response()->json($manager);
+            return response()->json(['success' => $manager]);
         }
 
         return view('Admin.manager.edit', ['info' => $info]);
@@ -146,9 +146,9 @@ class ManagerController extends CommonController
         $rs = Manager::find($id)->delete();
 
         if ($rs === false) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
 
     }
@@ -172,9 +172,9 @@ class ManagerController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 
@@ -198,9 +198,9 @@ class ManagerController extends CommonController
         }
 
         if (!empty($errors)) {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }else{
-            return ['success' => true];
+            return response()->json(['success' => true]);
         }
     }
 }
