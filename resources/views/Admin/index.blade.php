@@ -126,6 +126,7 @@
                 <ul>
                     <li><a data-href="/admin/setting/system" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
                     <li><a data-href="/admin/setting/service" data-title="客服设置" href="javascript:void(0)">客服设置</a></li>
+                    <li><a data-href="/admin/setting/banner" data-title="客服设置" href="javascript:void(0)">Banner设置</a></li>
                 </ul>
             </dd>
         </dl>

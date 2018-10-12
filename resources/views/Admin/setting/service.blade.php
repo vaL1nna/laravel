@@ -89,7 +89,7 @@
                 <input type="file" multiple name="web_qrcode" class="input-file">
                 </span>
                 @if(!empty($info->web_qrcode))
-                    <img src="{{ $info->web_qrcode }}" alt="没有二维码" width="100px">
+                    <img src="{{ $info->web_qrcode }}" style="width: 100px" alt="没有二维码" width="100px">
                 @endif
             </div>
         </div>
