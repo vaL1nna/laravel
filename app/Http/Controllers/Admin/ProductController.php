@@ -69,12 +69,10 @@ class ProductController extends CommonController
                 }
             }
 
+            $params['order_id'] = '99999';
             $data = Product::create($params);
-            $data->order_id = $data->id;
-
-            $result = $data->save();
-            if ($result) {
-                return response()->json(['success' => $result]);
+            if ($data) {
+                return response()->json(['success' => $data]);
             }
         }
         //获取所有分类信息

@@ -43,7 +43,6 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="admin_add('添加导航','/admin/nav/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加导航</a>
-            <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
             <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
@@ -134,43 +133,6 @@
     /*导航-编辑*/
     function admin_edit(title,url,id,w,h){
         layer_show(title,url + '/' + id,w,h);
-    }
-
-    /*批量更新*/
-    function batchUpdate() {
-        layer.confirm('确认要更新吗？',function(index) {
-            var ids = [];
-            $("input[name='ids']").each(function (index, value) {
-                if (this.checked) {
-                    ids.push(this.value);
-                }
-            });
-
-            //console.log(a);
-            $.ajax({
-                type: 'POST',
-                url: '/admin/nav/batchUpdate',
-                data: {
-                    ids: ids,
-                    @foreach($data as $v)
-                    order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
-                    @endforeach
-                    _token: "{{ csrf_token() }}"
-                },
-                dataType: 'json',
-                success: function (data) {
-                    layer.msg('已更新!',{icon:1,time:1000});
-
-                    function flushPage(){
-                        window.location.reload();
-                    }
-                    setTimeout(flushPage,1000)
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
-        });
     }
 
     /*批量删除*/

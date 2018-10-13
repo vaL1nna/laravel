@@ -83,30 +83,6 @@ class AboutUsController extends CommonController
 
     }
 
-    public function batchUpdate(Request $request)
-    {
-        //接受参数
-        $ids = $request->ids;
-        $errors = [];
-
-        if (is_array($ids)) {
-            foreach ($ids as $id) {
-                $order_id = 'order_id' . $id;
-                $order_id = $request->input($order_id);
-                $rs = Nav::find($id)->update(['order_id' => $order_id]);
-                if ($rs === false) {
-                    $errors[] = $id;
-                }
-            }
-        }
-
-        if (!empty($errors)) {
-            return response()->json(['success' => false]);
-        }else{
-            return response()->json(['success' => true]);
-        }
-    }
-
     public function batchDel(Request $request)
     {
         //接受参数

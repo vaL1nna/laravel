@@ -37,7 +37,6 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="admin_add('添加客户服务','/admin/service/add','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加客户服务</a>
-            <a href="javascript:;" onclick="batchUpdate()" class="btn btn-success radius"><i class="Hui-iconfont">&#xe642;</i> 批量更新</a>
             <a href="javascript:;" onclick="batchDel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
         </span>
         <span class="r">共有数据：<strong id="statistics">{{ $total }}</strong> 条</span> </div>
@@ -49,7 +48,6 @@
             </tr>
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="30">排序</th>
                 <th width="100">客户服务名称</th>
                 <th width="100">所属分类</th>
                 <th width="100">所在位置</th>
@@ -60,7 +58,6 @@
             @foreach($data as $v)
             <tr class="text-c">
                 <td><input type="checkbox" value="{{ $v->id }}" name="ids"></td>
-                <td><input style="width: 40px;text-align: center;border: 1px solid darkgray;" type="text" value="{{ $v->order_id }}" name="order_id{{ $v->id }}" id="order_id{{ $v->id }}"/> </td>
                 <td>{{ $v->nav_name }}</td>
                 <td>{{ $v->parent->nav_name }}</td>
                 <td>@if($v->position == 0) 头尾 @elseif($v->position == 1) 头部 @else 尾部 @endif </td>
@@ -128,43 +125,6 @@
     /*导航-编辑*/
     function admin_edit(title,url,id,w,h){
         layer_show(title,url + '/' + id,w,h);
-    }
-
-    /*批量更新*/
-    function batchUpdate() {
-        layer.confirm('确认要更新吗？',function(index) {
-            var ids = [];
-            $("input[name='ids']").each(function (index, value) {
-                if (this.checked) {
-                    ids.push(this.value);
-                }
-            });
-
-            //console.log(a);
-            $.ajax({
-                type: 'POST',
-                url: '/admin/service/batchUpdate',
-                data: {
-                    ids: ids,
-                    @foreach($data as $v)
-                        order_id{{$v->id}} : $('#order_id{{ $v->id }}') . val() ,
-                    @endforeach
-                    _token: "{{ csrf_token() }}"
-                },
-                dataType: 'json',
-                success: function (data) {
-                    layer.msg('已更新!',{icon:1,time:1000});
-
-                    function flushPage(){
-                        window.location.reload();
-                    }
-                    setTimeout(flushPage,1000)
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
-        });
     }
 
     /*批量删除*/

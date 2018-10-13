@@ -43,11 +43,23 @@ class NewsController extends CommonController
             //接受参数
             $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
 
+            if ($request->hasFile('news_image')) {
+                $image = $request->file('news_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['news_image'] = str_replace('public', '/storage', $path);
+                }
+            }
+
+            $params['order_id'] = '99999';
             $data = News::create($params);
-            $data->order_id = $data->id;
-            $result = $data->save();
-            if ($result) {
-                return response()->json(['success' => $result]);
+            if ($data) {
+                return response()->json(['success' => $data]);
             }
         }
         //获取所有分类信息
@@ -60,16 +72,32 @@ class NewsController extends CommonController
 
     public function edit(Request $request)
     {
+        $id = $request->id;
+        $info = News::find($id);
+
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
             $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
 
+            if ($request->hasFile('news_image')) {
+                $image = $request->file('news_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['news_image'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['news_image'] = $info['news_image'];
+            }
+
             $news = News::find($id)->update($params);
             return response()->json(['success' => $news]);
         }
-        $id = $request->id;
-        $info = News::find($id);
 
         //获取所有分类信息
         $menu = Nav::where('type_id', '4')->where('parent_id', '!=', '0')->orderBy('order_id')->get();

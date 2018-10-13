@@ -18,6 +18,7 @@ class News extends Model
         'order_id',
         'news_name',
         'news_content',
+        'news_image',
         'keyword',
         'title',
         'description',
