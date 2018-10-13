@@ -40,6 +40,6 @@ class Setting extends Model
 
     public function banner()
     {
-        return $this->hasMany('App\Banner', 'system_id', 'id');
+        return $this->hasMany('App\Banner', 'setting_id', 'id');
     }
 }
