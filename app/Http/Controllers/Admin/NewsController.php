@@ -41,7 +41,7 @@ class NewsController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
+            $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description');
 
             if ($request->hasFile('news_image')) {
                 $image = $request->file('news_image');
@@ -80,7 +80,7 @@ class NewsController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description', 'url');
+            $params = $request->only('menu_id', 'order_id', 'news_name', 'news_content', 'keyword', 'title', 'description');
 
             if ($request->hasFile('news_image')) {
                 $image = $request->file('news_image');

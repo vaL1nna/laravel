@@ -31,7 +31,7 @@ class ApplicationController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'url', 'nav_content');
+            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'nav_content');
             if ($request->hasFile('nav_image')) {
                 $image = $request->file('nav_image');
                 if ($image->isValid()) {
@@ -72,7 +72,7 @@ class ApplicationController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'url', 'nav_content');
+            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'nav_content');
 
             if ($request->hasFile('nav_image')) {
                 $image = $request->file('nav_image');

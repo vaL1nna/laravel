@@ -56,7 +56,7 @@
                 <th width="25"><input type="checkbox" name="" value=""></th>
                 <th width="150">导航名称</th>
                 <th width="150">所属分类</th>
-                <th width="90">url</th>
+                <th width="90">url跳转</th>
                 <th width="150">所在位置</th>
                 <th width="100">操作</th>
             </tr>

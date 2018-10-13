@@ -56,12 +56,12 @@
             <tr class="text-c">
                 <th width="25"><input type="checkbox" name="" value=""></th>
                 <th width="30">排序</th>
-                <th width="100">产品名称</th>
-                <th width="100">所属分类</th>
-                <th width="120">产品图片</th>
-                <th width="120">产品PDF</th>
-                <th width="100">是否显示</th>
-                <th width="100">操作</th>
+                <th width="150">产品名称</th>
+                <th width="80">所属分类</th>
+                <th width="100">产品图片</th>
+                <th width="100">产品PDF</th>
+                <th width="60">是否显示</th>
+                <th width="60">操作</th>
             </tr>
             </thead>
             <tbody id="list-item">

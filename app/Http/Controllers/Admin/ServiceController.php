@@ -32,7 +32,7 @@ class ServiceController extends Controller
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'url', 'nav_content');
+            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'nav_content');
 
             //获取父类id
             $parent = Nav::where('parent_id', '0')->where('type_id', '5')->first();
@@ -60,7 +60,7 @@ class ServiceController extends Controller
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'url', 'nav_content');
+            $params = $request->only('nav_name', 'position', 'keyword', 'title', 'description', 'nav_content');
 
             $nav = Nav::find($id)->update($params);
             return response()->json(['success' => $nav]);

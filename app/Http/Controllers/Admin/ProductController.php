@@ -41,7 +41,7 @@ class ProductController extends CommonController
     {
         if ($request->isMethod('post')){
             //接受参数
-            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10', 'product_attribute11');
+            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10', 'product_attribute11');
             if ($request->hasFile('product_image')) {
                 $image = $request->file('product_image');
                 if ($image->isValid()) {
@@ -91,7 +91,7 @@ class ProductController extends CommonController
         if ($request->isMethod('post')) {
             //接受参数
             $id = $request->id;
-            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'url', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10', 'product_attribute11');
+            $params = $request->only('menu_id', 'order_id', 'product_name', 'product_content', 'keyword', 'title', 'description', 'is_show', 'product_attribute1', 'product_attribute2', 'product_attribute3', 'product_attribute4', 'product_attribute5', 'product_attribute6', 'product_attribute7', 'product_attribute8', 'product_attribute9', 'product_attribute10', 'product_attribute11');
 
             if ($request->hasFile('product_image')) {
                 $image = $request->file('product_image');

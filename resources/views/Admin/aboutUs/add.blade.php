@@ -47,12 +47,12 @@
 			</select>
 			</span> </div>
         </div>
-        <div class="row cl">
+{{--        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>url优化：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="url" name="url">
             </div>
-        </div>
+        </div>--}}
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>seo标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
