@@ -18,7 +18,6 @@
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/page.css">
-    <link rel="stylesheet" type="text/css" href="/css/patch.css">
     <!--[if IE 6]>
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -43,37 +42,37 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ号码：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ号码1：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_account1 }}" name="qq_account1" id="qq_account1">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称1：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_name1 }}" name="qq_name1" id="qq_name1">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ号码：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ号码2：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_account2 }}" name="qq_account2" id="qq_account2">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称2：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_name2 }}" name="qq_name2" id="qq_name2">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ号码：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ号码3：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_account3 }}" name="qq_account3" id="qq_account3">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称：</label>
+            <label class="form-label col-xs-4 col-sm-3">  QQ显示名称3：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="{{ $info->qq_name3 }}" name="qq_name3" id="qq_name3">
             </div>
@@ -140,10 +139,6 @@
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
-
-                /*var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);*/
             }
         });
     });

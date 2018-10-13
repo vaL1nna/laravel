@@ -44,7 +44,7 @@
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">上传图片：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>上传图片：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
                     <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
@@ -144,14 +144,18 @@
                     url: "/admin/news/add" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
-                        layer.msg('添加成功!',{icon:1,time:1000});
-                        function closeModul() {
-                            parent.location.reload();
-                            var index = parent.layer.getFrameIndex(window.name);
-                            parent.$('.btn-refresh').click();
-                            parent.layer.close(index);
+                        if (data.error !== undefined) {
+                            layer.msg(data.error,{icon:1,time:1000});
+                        } else{
+                            layer.msg('添加成功!',{icon:1,time:1000});
+                            function closeModul() {
+                                parent.location.reload();
+                                var index = parent.layer.getFrameIndex(window.name);
+                                parent.$('.btn-refresh').click();
+                                parent.layer.close(index);
+                            }
+                            setTimeout(closeModul,1000)
                         }
-                        setTimeout(closeModul,1000)
                     },
                     error: function(XmlHttpRequest, textStatus, errorThrown){
                         layer.msg('error!',{icon:1,time:1000});

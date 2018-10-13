@@ -18,7 +18,6 @@
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="/admin/static/h-ui.admin/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/page.css">
-    <link rel="stylesheet" type="text/css" href="/css/patch.css">
     <!--[if IE 6]>
     <script type="text/javascript" src="/admin/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -36,10 +35,10 @@
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"> LOGO：</label>
+            <label class="form-label col-xs-4 col-sm-3"> 公司logo：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="web_logo" readonly>
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
                     <a href=" " class="btn btn-primary radius">
                         <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
                     </a>
@@ -99,6 +98,12 @@
             </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"> 地图代码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="web_map" cols="" rows="" class="textarea" dragonfly="true">{{ $info->web_map }}</textarea>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"> 版权信息：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="web_copyright" name="web_copyright" value="{{ $info->web_copyright }}">
@@ -151,10 +156,6 @@
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
-
-                /*var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);*/
             }
         });
     });

@@ -54,6 +54,8 @@ class NewsController extends CommonController
                     $path = $image->store('public');
                     $params['news_image'] = str_replace('public', '/storage', $path);
                 }
+            }else{
+                return response()->json(['error' => '图片必须要上传']);
             }
 
             $params['order_id'] = '99999';
@@ -92,7 +94,11 @@ class NewsController extends CommonController
                     $params['news_image'] = str_replace('public', '/storage', $path);
                 }
             }else{
-                $params['news_image'] = $info['news_image'];
+                if (!empty($info['news_image'])) {
+                    $params['news_image'] = $info['news_image'];
+                }else{
+                    return response()->json(['error' => '图片必须上传！']);
+                }
             }
 
             $news = News::find($id)->update($params);

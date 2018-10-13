@@ -13,7 +13,7 @@ class SettingController extends CommonController
 
         if ($request->isMethod('post')) {
             //接受参数
-            $params = $request->only('web_name', 'web_contacts', 'web_email', 'web_tel', 'web_phone', 'web_fax', 'web_addr', 'web_icp', 'web_share', 'web_copyright',  'url', 'title', 'keyword', 'description');
+            $params = $request->only('web_name', 'web_contacts', 'web_email', 'web_tel', 'web_phone', 'web_fax', 'web_addr', 'web_icp', 'web_share', 'web_map', 'web_copyright',  'url', 'title', 'keyword', 'description');
 
             if ($request->hasFile('web_logo')) {
                 $image = $request->file('web_logo');

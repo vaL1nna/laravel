@@ -23,6 +23,7 @@ class Setting extends Model
         'web_addr',
         'web_icp',
         'web_share',
+        'web_map',
         'web_copyright',
         'web_qrcode',
         'is_online',

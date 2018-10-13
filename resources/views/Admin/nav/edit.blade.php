@@ -65,6 +65,21 @@
 			</span> </div>
         </div>
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">上传图片：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="btn-upload form-group">
+                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
+                    <a href="javascript:void();" class="btn btn-primary radius">
+                        <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
+                    </a>
+                    <input type="file" multiple name="nav_image" class="input-file">
+                </span>
+                @if(!empty($info->nav_image))
+                    <img src="{{ $info->nav_image }}" alt="没有图片" width="100px">
+                @endif
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>url优化：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" id="url" name="url" value="{{ $info->url }}">

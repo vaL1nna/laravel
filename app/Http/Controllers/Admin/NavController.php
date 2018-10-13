@@ -45,6 +45,19 @@ class NavController extends CommonController
             //接受参数
             $params = $request->only('nav_name', 'position', 'parent_id', 'type_id', 'keyword', 'title', 'description', 'url', 'nav_content');
 
+            if ($request->hasFile('nav_image')) {
+                $image = $request->file('nav_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['nav_image'] = str_replace('public', '/storage', $path);
+                }
+            }
+
             $data = Nav::create($params);
             if ($data) {
                 return response()->json(['success' => $data]);
@@ -68,6 +81,21 @@ class NavController extends CommonController
             $id = $request->id;
             $params = $request->only('nav_name', 'position', 'parent_id', 'type_id', 'keyword', 'title', 'description', 'url', 'nav_content');
 
+            if ($request->hasFile('nav_image')) {
+                $image = $request->file('nav_image');
+                if ($image->isValid()) {
+                    $ext = $image->getClientOriginalExtension();
+                    $fileTypes = array('gif','png','jpg','jpeg');
+                    if (!in_array($ext, $fileTypes)) {
+                        return response()->json(['error' => '图片格式不正确']);
+                    }
+                    $path = $image->store('public');
+                    $params['nav_image'] = str_replace('public', '/storage', $path);
+                }
+            }else{
+                $params['nav_image'] = $info['nav_image'];
+            }
+
             $nav = Nav::find($id)->update($params);
             return response()->json(['success' => $nav]);
         }
@@ -88,7 +116,7 @@ class NavController extends CommonController
         $parent_id = $info->parent_id;
         if ($parent_id == 0){
             //一级导航
-            $children = Nav::where('parent_id', $id);
+            $children = Nav::where('parent_id', $id)->exists();
 
             if (!empty($children)) {
                 return response()->json(['error' => '一级导航下存在子分类，请先删除其子分类及其子分类下的数据！']);
@@ -98,7 +126,7 @@ class NavController extends CommonController
             switch ($type_id) {
                 //产品
                 case '2':
-                    $product = Product::where('menu_id', $id);
+                    $product = Product::where('menu_id', $id)->exists();
                     if (!empty($product)) {
                         return response()->json(['error' => '二级产品分类下存在产品信息，请先删除其下产品数据！']);
                     }
@@ -106,7 +134,7 @@ class NavController extends CommonController
 
                 //新闻
                 case '4':
-                    $product = News::where('menu_id', $id);
+                    $product = News::where('menu_id', $id)->exists();
                     if (!empty($product)) {
                         return response()->json(['error' => '二级新闻分类下存在新闻信息，请先删除其下新闻数据！']);
                     }
@@ -141,7 +169,7 @@ class NavController extends CommonController
                 $parent_id = $info->parent_id;
                 if ($parent_id == 0){
                     //一级导航
-                    $children = Nav::where('parent_id', $id);
+                    $children = Nav::where('parent_id', $id)->exists();
                     if (!empty($children)) {
                         return response()->json(['error' => '一级导航下存在自分类，请先删除其子分类及其子分类下的数据！']);
                     }
@@ -150,7 +178,7 @@ class NavController extends CommonController
                     switch ($type_id) {
                         //产品
                         case '2':
-                            $product = Product::where('menu_id', $id);
+                            $product = Product::where('menu_id', $id)->exists();
                             if (!empty($product)) {
                                 return response()->json(['error' => '二级产品分类下存在产品信息，请先删除其下产品数据！']);
                             }
@@ -158,7 +186,7 @@ class NavController extends CommonController
 
                         //新闻
                         case '4':
-                            $product = News::where('menu_id', $id);
+                            $product = News::where('menu_id', $id)->exists();
                             if (!empty($product)) {
                                 return response()->json(['error' => '二级新闻分类下存在新闻信息，请先删除其下新闻数据！']);
                             }

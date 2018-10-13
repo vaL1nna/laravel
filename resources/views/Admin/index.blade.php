@@ -85,6 +85,7 @@
             <dd>
                 <ul>
                     <li><a data-href="/admin/news/list" data-title="新闻管理" href="javascript:void(0)">新闻列表</a></li>
+                    <li><a data-href="/admin/news/add" data-title="添加新闻" href="javascript:void(0)">添加新闻</a></li>
                 </ul>
             </dd>
         </dl>
@@ -93,6 +94,7 @@
             <dd>
                 <ul>
                     <li><a data-href="/admin/product/list" data-title="产品管理" href="javascript:void(0)">产品列表</a></li>
+                    <li><a data-href="/admin/product/add" data-title="添加产品" href="javascript:void(0)">添加产品</a></li>
                 </ul>
             </dd>
         </dl>
