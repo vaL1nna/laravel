@@ -6,11 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <style>
-        span.error {
-            color:red;
-        }
-    </style>
     <!--[if lt IE 9]>
     <script type="text/javascript" src="/admin/lib/html5shiv.js"></script>
     <script type="text/javascript" src="/admin/lib/respond.min.js"></script>
@@ -119,18 +114,11 @@
             increaseArea: '20%'
         });
             $("#form-admin-add").validate({
-            errorElement: 'span',
-            errorPlacement: function(error, element) {
-                error.appendTo(element.parent());
-            },
             rules:{
                 nav_name:{
                     required:true,
                     minlength:1,
                     maxlength:16
-                },
-                nav_image:{
-                    required:true,
                 },
                 nav_content: {
                     required:true,
@@ -141,9 +129,6 @@
                     required: '请输入应用领域名称',
                     minlength: '应用领域名称不能少于1位',
                     maxlength: '应用领域名称不能超过16位',
-                },
-                nav_image:{
-                    required: '必须上传图片',
                 },
                 nav_content: {
                     required: '内容不能为空',
@@ -174,10 +159,6 @@
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
-
-                /*var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);*/
             }
         });
     });

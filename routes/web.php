@@ -99,6 +99,17 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
         Route::post('batchDel', 'BannerController@batchDel');
     });
 
+    //客户服务管理模块
+    Route::group(['prefix' => 'service'], function (){
+        Route::get('list', 'ServiceController@list');
+        Route::match(['get', 'post'], 'add', 'ServiceController@add');
+        Route::get('edit/{id}', 'ServiceController@edit');
+        Route::post('edit', 'ServiceController@edit');
+        Route::post('del', 'ServiceController@del');
+        Route::post('batchUpdate', 'ServiceController@batchUpdate');
+        Route::post('batchDel', 'ServiceController@batchDel');
+    });
+
     //系统设置模块
     Route::group(['prefix' => 'setting'], function (){
         Route::match(['get', 'post'], 'system', 'SettingController@system');
@@ -108,7 +119,6 @@ Route::group(['middleware' => 'auth:admin', 'prefix' => 'admin', 'namespace' => 
 
 //前台模块
 Route::group(['namespace' => 'Home'], function (){
-    Route::get('index', 'IndexController@index');
     Route::get('index', 'IndexController@index');
 });
 

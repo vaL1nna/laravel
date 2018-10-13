@@ -27,65 +27,50 @@
 <article class="page-container">
     <form class="form form-horizontal" id="form-admin-add">
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>应用领域名称：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>客户服务名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" id="nav_name" name="nav_name" value="{{$info->nav_name}}">
+                <input type="text" class="input-text" id="nav_name" name="nav_name" @if(!empty($info->nav_name)) value="{{ $info->nav_name }}" @endif>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>位置：</label>
             <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 			<select class="select" name="position" size="1">
-				<option value="0" @if($info->position == 0) selected @endif>--头尾--</option>
-				<option value="1" @if($info->position == 1) selected @endif>--头部--</option>
-				<option value="2" @if($info->position == 2) selected @endif>--尾部--</option>
+				<option value="0"  @if(!empty($info->position) && $info->position == '0') selected @endif>--头尾--</option>
+				<option value="1" @if(!empty($info->position) && $info->position == '1') selected @endif>--头部--</option>
+				<option value="2" @if(!empty($info->position) && $info->position == '2') selected @endif>--尾部--</option>
 			</select>
 			</span> </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>上传图片：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <span class="btn-upload form-group">
-                    <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
-                    <a href="javascript:void();" class="btn btn-primary radius">
-                        <i class="icon Hui-iconfont">&#xe641;</i>浏览文件
-                    </a>
-                    <input type="file" multiple name="nav_image" class="input-file">
-                </span>
-                @if(!empty($info->nav_image))
-                    <img src="{{ $info->nav_image }}" alt="没有头像" width="100px">
-                @endif
-            </div>
-        </div>
-        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>url优化：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" id="url" name="url" value="{{ $info->url }}">
+                <input type="text" class="input-text" id="url" name="url" @if(!empty($info->url)) value="{{ $info->url }}" @endif>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>seo标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" id="title" name="title" value="{{ $info->title }}">
+                <input type="text" class="input-text" id="title" name="title" @if(!empty($info->title)) value="{{ $info->title }}" @endif>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>seo关键字：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" id="keyword" name="keyword" value="{{ $info->keyword }}">
+                <input type="text" class="input-text" id="keyword" name="keyword" @if(!empty($info->keyword)) value="{{ $info->keyword }}" @endif>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">seo描述：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="description" cols="" rows="" class="textarea" dragonfly="true">{{ $info->description }}</textarea>
+                <textarea name="description" cols="" rows="" class="textarea" dragonfly="true">@if(!empty($info->description)){{ $info->description }}@endif</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>应用领域内容：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>客户服务内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="nav_content" cols="" rows="" class="textarea" dragonfly="true">{{ $info->nav_content }}</textarea>
+                <textarea name="nav_content" cols="" rows="" class="textarea" dragonfly="true">@if(!empty($info->nav_content)){{ $info->nav_content }}@endif</textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
         </div>
@@ -94,7 +79,7 @@
                 <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
-        <input type="hidden" name="id" value="{{ $info->id }}">
+        <input type="hidden" name="id" @if(!empty($info->id)) value="{{ $info->id }}" @endif>
     </form>
 </article>
 
@@ -130,12 +115,12 @@
             },
             messages:{
                 nav_name:{
-                    required: '请输入应用领域名称',
-                    minlength: '应用领域名称不能少于1位',
-                    maxlength: '应用领域名称不能超过16位',
+                    required: '请输入客户服务名称',
+                    minlength: '客户服务名称不能少于1位',
+                    maxlength: '客户服务名称不能超过16位',
                 },
                 nav_content: {
-                    required: '内容不能为空',
+                    required: '客户服务内容不能为空',
                 }
             },
             focusCleanup:false,
@@ -143,13 +128,13 @@
             submitHandler:function(form){
                 $(form).ajaxSubmit({
                     type: 'post',
-                    url: "/admin/application/edit" ,
+                    url: "/admin/service/edit" ,
                     data: { _token:"{{ csrf_token() }}" },
                     success: function(data){
                         if (data.error !== undefined) {
                             layer.msg(data.error, {icon:1,time:1000});
                         }else{
-                            layer.msg('添加成功!',{icon:1,time:1000});
+                            layer.msg('修改成功!',{icon:1,time:1000});
                             function closeModul() {
                                 parent.location.reload();
                                 var index = parent.layer.getFrameIndex(window.name);
