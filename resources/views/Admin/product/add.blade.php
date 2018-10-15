@@ -247,10 +247,6 @@
                         layer.msg('error!',{icon:1,time:1000});
                     }
                 });
-
-                /*var index = parent.layer.getFrameIndex(window.name);
-                parent.$('.btn-refresh').click();
-                parent.layer.close(index);*/
             }
         });
     });
